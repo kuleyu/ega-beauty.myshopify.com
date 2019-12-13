@@ -1,0 +1,93 @@
+.sc-badge-main {
+    position: relative;
+}
+.sc-badge-container {
+    cursor: pointer;
+    position: absolute;
+				line-height: 1em;
+}
+.sc-badge-collection {
+    height: 100%;
+    width: 100%;
+}
+.sc-badge-img {
+    background-repeat: no-repeat !important;
+    background-size: contain !important;
+    position: absolute !important;
+}
+.top_right {
+    background-position: right top;
+    bottom: auto !important;
+    left: auto !important;
+    right: 0 !important;
+    top: 0 !important;
+}
+.top_left {
+    background-position: left top;
+    bottom: auto !important;
+    left: 0 !important;
+    right: auto !important;
+    top: 0 !important;
+}
+.top_center {
+    background-position: center top;
+    bottom: auto !important;
+    left: 50% !important;
+    right: auto !important;
+    top: 0 !important;
+    transform: translateX(-50%);
+}
+.middle_right {
+    background-position: right center;
+    bottom: auto !important;
+    left: auto !important;
+    right: 0 !important;
+    top: 50% !important;
+    transform: translateY(-50%);
+}
+.middle_left {
+    background-position: left center;
+    bottom: auto !important;
+    left: 0 !important;
+    right: auto !important;
+    top: 50% !important;
+    transform: translateY(-50%);
+}
+.middle_center {
+    background-position: center center;
+    bottom: auto !important;
+    left: 50% !important;
+    right: auto !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%);
+}
+.bottom_right {
+    background-position: right bottom;
+    bottom: 0 !important;
+    left: auto !important;
+    right: 0 !important;
+    top: auto !important;
+}
+.bottom_left {
+    background-position: left bottom;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: auto !important;
+    top: auto !important;
+}
+.bottom_center {
+    background-position: center bottom;
+    bottom: 0 !important;
+    left: 50% !important;
+    right: auto !important;
+    top: auto !important;
+    transform: translateX(-50%);
+}
+.sc-badge-content {
+    left: 50%;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: 9999;
+}

@@ -1,0 +1,41 @@
+<!-- Modal -->
+<div class="modal fade" id="add_cart_popup" tabindex="-1" role="dialog" aria-labelledby="">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="ega_success_message modal-title">
+          <i class='fa-check fa'></i>
+          {{ 'products.product.added_to_cart' | t }}
+        </h5>
+      </div>
+      <div class="modal-body">
+        <div class='list_layout'>
+          <div class="item_inner">
+            <div class="product_image">
+              <a href="">
+                <img src="" alt="">
+              </a>
+            </div>
+            <div class="product_detail">
+              <div class="product_title">
+                <h4>
+                  <a href=""></a>
+                </h4>
+              </div>
+              <div class="product_price">
+                <ins></ins>
+              </div>
+              <div class='action'>
+                <a href='/cart' class="btn btn_border dark">{{ 'cart.general.view_cart' | t }}</a>
+                <a href='#' data-dismiss="modal" class="btn btn_border dark">{{ 'cart.general.continue_shopping' | t }}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

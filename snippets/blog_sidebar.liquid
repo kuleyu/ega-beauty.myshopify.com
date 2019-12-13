@@ -1,0 +1,17 @@
+<div class='blog_sidebar'>
+  {% if settings.use_blog_sidebar_category %}
+  {% include 'blog_sidebar_category' %}
+  {% endif %}
+  
+  {% if settings.use_blog_sidebar_recent_articles %}
+  {% include 'blog_sidebar_recent_articles' %}
+  {% endif %}
+  
+  {% if settings.use_blog_sidebar_tags %}
+  {% include 'blog_sidebar_tags' %}
+  {% endif %}
+  
+  {% if settings.use_blog_sidebar_fb %}
+  {% include 'blog_sidebar_fb' %}
+  {% endif %}
+</div>

@@ -1,0 +1,11 @@
+<div class='article_related_articles'>
+  <h3 class='h4'>{{ 'blogs.article.related_articles' | t }}</h3>
+
+  <div class='row'>
+    {% for article in blogs[settings.index_blog].articles limit: 4 %}
+    <div class='col-xs-12 col-sm-6 col-md-3 article_item style_1'>
+      {% include 'article_item' with {article_size: '270x'}%}
+    </div>
+    {% endfor %}
+  </div>
+</div>

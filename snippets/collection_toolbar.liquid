@@ -1,0 +1,15 @@
+<div class='toolbar clearfix'>
+  {% if settings.use_viewmode %}
+   {% include 'collection_viewmode' %}
+  {% endif %}
+  
+  {% if template contains 'collection' %}
+  {% if settings.use_limit_item %}
+   {% include 'collection_sorting' %}
+  {% endif %}
+  {% endif %}
+  
+  {% if settings.use_sort_product %}
+  {% include 'collection_item_limit' %}
+  {% endif %}
+</div>

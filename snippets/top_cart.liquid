@@ -1,0 +1,81 @@
+<div id='top_cart'>
+  <a href="/cart" id="top_cart_trigger" class=''>{{ cart.item_count}}</a>
+  <div id="top_cart_content">
+
+    <div class='no_item{% if cart.item_count > 0 %} hidden{% endif %}'>
+      <div class="top_cart_title">
+        <h3>{{ 'cart.general.empty' | t }}</h3>
+      </div>
+      <div class="top_cart_items text-center nobottompadding">
+        <a href="/collections/all" class="btn btn_border dark">{{ 'cart.general.continue_shopping' | t }}</a>
+      </div>
+    </div>
+    <div class='has_items{% if cart.item_count == 0 %} hidden{% endif %}'>
+      <div class="top_cart_title">
+        <h3>{{ 'cart.general.has_item_html' | t: item_count: cart.item_count }}</h3>
+      </div>
+      <div class="top_cart_items list_layout">
+        {% for item in cart.items %}
+        <div class="item_inner clearfix">
+          <div class='product_image'>
+            <a href="{{ item.url }}">
+              <img src="{{ item | img_url: 'small' }}" alt="{{ item.title | escape }}"></a>
+          </div>
+          <div class="product_detail">
+            <div class="product_title">
+              <h4><a href="{{ item.url }}">{{ item.product.title }}</a></h4>
+            </div>
+            {% unless item.variant.title contains 'Default' %}
+            <div class='product_variant'>
+              {{ item.variant.title }}
+            </div>
+            {% endunless %}
+            <div class="product_price">
+              <ins>{{ item.price | money }}</ins> x <span>{{ item.quantity }}</span>
+            </div>
+            <a href='{{ item.variant_id }}' class="top_cart_item_remove" data-role='removeitem'>
+              <i class='fa fa-times'></i>
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="top_cart_action clearfix">
+        <div class='top_cart_price clearfix'>
+          <small>{{ 'cart.label.total' | t }}:</small>
+          <ins class='pull-right'>{{ cart.total_price | money }}</ins>
+        </div>
+        <div class='text-right'>
+          <a href='/cart' class='viewcart btn btn_border dark'>{{ 'cart.general.view_cart' | t }}</a>
+          <a href='/checkout' class='checkout btn btn_dark'>{{ 'cart.general.checkout' | t }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% raw %}
+<script id="top_cart_template" type="text/x-handlebars-template">
+ <div class="item_inner clearfix">
+  <div class='product_image'>
+    <a href="{{ item_url }}"><img src="{{ item_image }}" alt="{{ item_title }}"></a>
+  </div>
+  <div class="product_detail">
+    <div class="product_title">
+      <h4><a href="{{ item_url }}">{{ item_title }}</a></h4>
+    </div>
+
+    <div class='product_variant'>
+      {{ item_variant }}
+    </div>
+
+    <div class="product_price">
+      <ins>{{ item_price }}</ins> x <span>{{ item_quantity }}</span>
+    </div>
+    <a href='{{ item_id }}' class="top_cart_item_remove" data-role='removeitem'>
+      <i class='fa fa-times'></i>
+    </a>
+  </div>
+ </div>
+</script>
+{% endraw %}

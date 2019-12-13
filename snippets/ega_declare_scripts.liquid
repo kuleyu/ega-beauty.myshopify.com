@@ -1,0 +1,13 @@
+{% assign ega_platform = 'Shopify' %}
+<script>
+  if(typeof EGA === 'undefined')	EGA = {};
+
+  if(typeof {{ ega_platform }} === 'undefined') {{ ega_platform }} = {};
+
+  EGA.platform = {{ ega_platform }};
+  
+  EGA.moneyFormat = '{{ shop.money_format }}';
+  {% if ega_platform == 'Bizweb' %}
+  	EGA.moneyFormat = '{{ store.money_format }}';
+  {% endif %}
+</script>

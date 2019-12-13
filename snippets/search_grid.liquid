@@ -1,0 +1,9 @@
+<div class='grid_layout'>
+  <div class='row'>
+    {% for product in search.results limit: pagination_limit %}
+    <div class='{{ coll }} product_item style_1'>
+      {% include 'product_grid_item' with {img_url: img_size} %}
+    </div>
+    {% endfor %}
+  </div>
+</div>

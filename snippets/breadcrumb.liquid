@@ -1,0 +1,64 @@
+{% comment %}
+Documentation - http://docs.shopify.com/support/your-website/navigation/creating-a-breadcrumb-navigation
+{% endcomment %}
+{% unless template == 'index' %}
+<div class="container clearfix">
+  <div class='row'>
+    <ul class="breadcrumb">
+      <li><a href="/">{{ 'general.breadcrumbs.home' | t }}</a></li>
+
+      {% comment %} Product {% endcomment %}
+
+      {% if template contains 'product' %}
+
+      {% if collection %}
+      {% assign url = collection.url %}
+      <li><i class='fa fa-angle-right'></i>{{ collection.title | link_to: url }}</li>
+      {% endif %}
+      <li><i class='fa fa-angle-right'></i>{{ product.title }}</li>
+
+      {% comment %} Collection {% endcomment %}
+      {% elsif template contains 'collection' and collection.handle %}
+
+      {% if current_tags %}
+      {% assign url = collection.url %}
+      <li><i class='fa fa-angle-right'></i>{{ collection.title | link_to: url }}</li>
+      <li><i class='fa fa-angle-right'></i>{{ current_tags | join: " + " }}</li>
+      {% else %}
+      <li><i class='fa fa-angle-right'></i>{{ collection.title }}</li>
+      {% endif %}
+
+      {% comment %} Search {% endcomment %}
+      {% elsif template contains 'search' %}
+      <li><i class='fa fa-angle-right'></i>{{ 'general.search.title' | t }}</li>
+      
+      {% comment %} Blog {% endcomment %}
+      {% elsif template == 'blog' %}
+      {% if current_tags %}
+      <li><i class='fa fa-angle-right'></i>{{ blog.title | link_to: blog.url }}</li>
+      <li><i class='fa fa-angle-right'></i>{{ current_tags | join: " + " }}</li>
+      {% else %}
+      <li><i class='fa fa-angle-right'></i>{{ blog.title }}</li>
+      {% endif %}
+
+      {% comment %} Article {% endcomment %}
+      {% elsif template == 'article' %}
+      <li><i class='fa fa-angle-right'></i>{{ blog.title | link_to: blog.url }}</li>
+      <li><i class='fa fa-angle-right'></i>{{ article.title }}</li>
+
+      {% comment %} Page {% endcomment %}
+      {% elsif template contains 'page' %}
+      <li><i class='fa fa-angle-right'></i>{{ page.title }}</li>
+
+      {% comment %} 404 {% endcomment %}
+      {% elsif template == '404' %}
+      <li><i class='fa fa-angle-right'></i> {{ 'general.404.title' | t | upcase }}</li>
+      
+      {% else %}
+      <li><i class='fa fa-angle-right'></i>{{ page_title }}</li>
+
+      {% endif %}
+    </ul>
+  </div>
+</div>
+{% endunless %}

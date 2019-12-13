@@ -1,0 +1,30 @@
+<div class="slider-wrap">
+
+  <div id='pd_thumb_list' class='pd_slide_thumb slick_thumb zoom_style col-sm-2 noleftpadding hidden-xs'>
+    {% for img in product.images %}
+    <div class="slick-slide">
+      <div class="img" >
+        <a href="#" data-image="{{ img.src | product_img_url:'grande' }}" data-zoom-image='{{ img.src | product_img_url:"master" }}'>
+          <img src="{{ img.src | product_img_url:'small' }}">
+        </a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="pd_slide zoom_style col-sm-10 nopadding">
+    <div class="img">
+      <img data-zoom-image='{{ product.featured_image.src | product_img_url:"master" }}' id='proimg' src="{{ product.featured_image.src | product_img_url:'grande' }}" alt='{{ product.title }}' title='{{ product.title }}'>
+    </div>
+  </div>
+  {% if product.images.size > 0 %}
+  <script>
+    $(document).ready(function() {
+      EGA.addScript.productZoom({
+        $pro_img_id: 'proimg',
+        $pro_thumb_list: 'pd_thumb_list',
+        pro_thumb_vertical: true,
+      });
+    })
+  </script>
+  {% endif %}
+</div>

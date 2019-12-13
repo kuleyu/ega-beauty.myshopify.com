@@ -1,0 +1,23 @@
+{% assign products_count = collection.products | size %}
+<div class='item_inner'>
+  <a href='{{ collection.url }}'>
+    <div class='collection_image'>
+
+      <img src='{{ collection.image.src | img_url: "large" }}' alt='{{ collection.title }}' />
+    </div>
+    <div class='collection_title'>
+      <h4>{{ collection.title }}</h4>
+      <p class='products_count'>
+        {% if products_count > 1 %}
+        {{ 'collections.general.items_with_count.other' | t: count: products_count }}
+        {% else %}
+        {{ 'collections.general.items_with_count.one' | t: count: products_count }}
+        {% endif %}
+      </p>
+      <p class='short_desc'>
+        {{ collection.description | strip_html | truncate: 100 }}
+      </p>
+    </div>
+    <div href='{{ collection.url }}' class='overlay'></div>
+  </a>
+</div>

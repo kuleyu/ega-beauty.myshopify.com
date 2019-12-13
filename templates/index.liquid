@@ -1,0 +1,14 @@
+{% assign img_url = settings.home_product_imgsize %}
+
+{% for i in (1..4) %}
+{% capture index_section %}index_section_{{i}}{% endcapture %}
+
+{% if settings[index_section] != blank %}
+{% include settings[index_section] %}
+{% endif %}
+
+{% endfor %}
+
+{% comment %} 
+{{ content_for_index }}
+{% endcomment %}

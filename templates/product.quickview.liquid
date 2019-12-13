@@ -1,0 +1,172 @@
+{% layout none %}
+{% assign on_sale = false %}
+{% assign sale_text = 'products.product.on_sale' | t | upcase %}
+
+{% if product.compare_at_price > product.price %}
+{% assign on_sale = true %}
+{% endif %}
+
+{% include 'linked_options' %}
+{% assign current_variant = product.selected_or_first_available_variant %}
+{% assign featured_image = current_variant.featured_image | default: product.featured_image %}
+<div class='clearfix'>
+  <div class='col-xs-12 col-sm-6 product_image_wrap text-center'>
+    {% include 'product_slideshow_qv' %}
+    {% if on_sale %}
+    <div class="product_flag sale"><span>{{ sale_text }}</span></div>
+    {% endif %}
+  </div>
+
+  <div class='col-xs-12 col-sm-6 product_content'>
+    <a href='{{ product.url }}'> <h2>{{ product.title }}</h2></a>
+    <div class='product_price'>
+      {% if product.compare_at_price_max > product.price %}
+      <del>{{ current_variant.compare_at_price | money }}</del>
+      {% endif %}
+      <ins>{{ current_variant.price | money }} </ins>
+    </div>
+    {% if settings.use_product_reviews %}
+    <!-- product review -->
+    <div class='product_review'>
+      <i class='fa fa-star'></i>
+      <i class='fa fa-star'></i>
+      <i class='fa fa-star'></i>
+      <i class='fa fa-star-half-o'></i>
+      <i class='fa fa-star-o'></i>
+      <span class='product_review_caption'>No review</span>
+    </div>
+    <!-- end product review -->
+    {% endif %}
+
+    {% if settings.use_product_vendor or settings.use_product_type %}
+    <!-- product infor -->
+    <div class='product_info'>
+      {% if settings.use_product_vendor %}
+      <p><strong>{{ 'products.product.brand' | t }}: </strong><span>{{ product.vendor }}</span></p>
+      {% endif %}
+
+      {% if settings.use_product_type %}
+      <p><strong>{{ 'products.product.type' | t }}: </strong><span>{{ product.type }}</span></p>
+      {% endif %}
+    </div>
+    <!-- end product infor -->
+    {% endif %}
+
+    {% if settings.use_product_short_decs %}
+    <!-- product short description -->
+    <div class='product_shortdesc'>
+      {% assign product_short_desc_number = settings.product_short_desc_number %}
+      {{ product.description | strip_html | truncate: product_short_desc_number }}
+    </div>
+    <!-- end product short description -->
+    {% endif %}
+
+    <!-- product form -->
+    <div class='product_form_detail'>
+      <form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartFormPopup">
+
+        <select name="id" id="product-select" class="hidden">
+          {% for variant in product.variants %}
+          <option {% unless variant.available %} disabled="disabled" {% endunless %} 
+                  {% if variant == current_variant %} selected="selected" {% endif %} 
+                  data-sku="{{ variant.sku }}" 
+                  value="{{ variant.id }}">
+            {{ variant.title }} - {% if variant.available %}{{ variant.price | money_with_currency }}{% else %}{{ 'products.product.sold_out' | t }}{% endif %}
+          </option>
+          {% endfor %}
+        </select>
+
+        {% if settings.use_product_swatch %}
+        {% if product.available and product.variants.size > 1 %}
+        {% for option in product.options %}
+        {% include 'swatch' with option %}
+        {% endfor %}
+        {% endif %}
+        {% endif %}
+
+        <div data-role='quantity' class="product_quantity style_1">
+          <button data-role='minus' type='button' class='btn minus'></button>
+          <div class='quantity_input_wrap'>
+            <input data-role='qty' type="text" name="quantity" value="1" min="1" class="quantity_input">
+          </div>
+          <button data-role='plus' type='button' class='btn plus'></button>
+        </div>
+
+        <a data-role='addtocart' href="#" class="btn addtocart btn_border addtocart_detail">
+          {{ 'products.product.add_to_cart' | t }}
+        </a>
+        <a data-role='buynow' href='#' class='btn btn_dark buynow buynow_detail'>
+          {{ 'products.product.buy_now' | t }}
+        </a>
+      </form>
+    </div>
+    <!-- end product form -->
+  </div>
+</div>
+<script>
+  var selectCallback = function(variant, selector) {
+    EGA.product.productPage({
+      variant: variant,
+      selector: selector,
+      translations: {
+        addToCart : "{{ 'products.product.add_to_cart' | t }}",
+        soldOut : "{{ 'products.product.sold_out' | t }}",
+        unavailable : "{{ 'products.product.unavailable' | t }}"
+      },
+      productTag: {
+        addToCart: $('#AddToCartFormPopup [data-role=addtocart]'),
+        buyNow: $('#AddToCartFormPopup [data-role=buynow]'),
+        productSlideThumb: $('#product_image_slide_thumb_qv img'),
+        price: $('#product_popup .product_price ins'),
+        comparePrice: $('#product_popup .product_price del'),
+        quantity: $('#AddToCartFormPopup .product_quantity'),
+        sale: $('.product_image_wrap .product_flag')
+      }
+      });
+
+      // BEGIN SWATCHES
+      if (variant) {
+      var form = jQuery('#' + selector.domIdPrefix).closest('form');
+      for (var i=0,length=variant.options.length; i<length; i++) {
+      var radioButton = form.find('.swatch[data-option-index="' + i + '"] :radio[value="' + variant.options[i] +'"]');
+      if (radioButton.size()) {
+      radioButton.get(0).checked = true;
+    }
+                            }
+                            }
+                            // END SWATCHES
+
+                            };
+
+                            new EGA.platform.OptionSelectors('product-select', {
+                            product: {{ product | json }},
+                            onVariantSelected: selectCallback
+                            //enableHistoryState: true
+                            });
+
+    // Add label if only one product option and it isn't 'Title'. Could be 'Size'.
+    {% if product.options.size == 1 and product.options.first != 'Title' %}
+    $('.selector-wrapper:eq(0)')
+    .prepend('<label for="product-select-option-0">{{ product.options.first | escape }}</label>');
+             {% endif %}
+
+             // Hide selectors if we only have 1 variant and its title contains 'Default'.
+             {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
+             $('.selector-wrapper').hide();
+    {% endif %}
+
+    // Swatch Change
+    jQuery('.swatch :radio').change(function() {
+      var optionIndex = jQuery(this).closest('.swatch').attr('data-option-index');
+      var optionValue = jQuery(this).val();
+      jQuery(this)
+      .closest('form')
+      .find('.single-option-selector')
+      .eq(optionIndex)
+      .val(optionValue)
+      .trigger('change');
+    });
+
+    EGA.product.updateQuantity();
+
+</script>

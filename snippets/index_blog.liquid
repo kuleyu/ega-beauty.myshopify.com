@@ -1,0 +1,30 @@
+{% assign article_size = '370x' %}
+<div class='container clearfix'>
+  <div class='index_blog_wrapper'>
+    <div class='page_title title_absolute'>
+      <h2>{{ settings.index_blog_title }}</h2>
+      <small>{{ settings.index_blog_sub_title }}</small>
+    </div>
+    <div class='row'>
+    <div class='index_blog col-md-12 col-xs-12 col-sm-8 col-sm-push-2 col-md-push-0'>
+      <div class='row'>
+        {% for article in blogs[settings.index_blog].articles limit: 3 %}
+        <div class='col-xxs-12 col-xs-6 col-sm-4 article_item style_1'>
+          {% include 'article_item' %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+<script>
+  if(window.innerWidth < 991 && window.innerWidth > 767) {
+    document.addEventListener('DOMContentLoaded', function() {
+      $('.index_blog .row').slick({
+        prevArrow: '<a class="slick-prev"><i class="fa fa-angle-left"></i></a>',
+        nextArrow: '<a class="slick-next"><i class="fa fa-angle-right"></i></a>'
+      })
+    })
+  }
+</script>

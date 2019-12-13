@@ -1,0 +1,34 @@
+<!-- product share -->
+<div class='product_share'>
+  <p>{{ settings.product_sharing_text }}</p>
+  <div class="social_group">
+    {% if settings.use_product_sharing_fb %}
+    <a target="_blank" href="http://www.facebook.com/sharer/sharer.php?u=http&#58;&#47;&#47;{{ shop.domain }}{{ product.url }}" class="social-icon si-facebook si-colored noradius">
+      <i class="fa fa-facebook"></i>
+      <i class="fa fa-facebook"></i>
+    </a>        
+    {% endif %}
+
+    {% if settings.use_product_sharing_tt %}
+    <a target="_blank" href="https://twitter.com/intent/tweet?text={{ product.title | truncate: 30 }}&amp;url=http&#58;&#47;&#47;{{ shop.domain }}{{ product.url | replace: '/', '%2F' }}&amp;" class="social-icon si-twitter si-colored noradius">
+      <i class="fa fa-twitter"></i>
+      <i class="fa fa-twitter"></i>
+    </a>
+    {% endif %}
+
+    {% if settings.use_product_sharing_pinter %}
+    <a target="_blank" href="http://pinterest.com/pin/create/button/?url=http&#58;&#47;&#47;{{ shop.domain }}{{ product.url }}&amp;description={{ product.description | strip_html | truncate: 240 }}&amp;media={{ product.featured_image.src | product_img_url: 'large' }}" class="social-icon si-pinterest si-colored noradius">
+      <i class="fa fa-pinterest"></i>
+      <i class="fa fa-pinterest"></i>
+    </a>
+    {% endif %}
+
+    {% if settings.use_product_sharing_gp %}
+    <a target="_blank" href="https://plus.google.com/share?url=http&#58;&#47;&#47;{{ shop.domain }}{{ product.url }}" class="social-icon si-gplus si-colored noradius">
+      <i class="fa fa-google-plus"></i>
+      <i class="fa fa-google-plus"></i>
+    </a>
+    {% endif %}
+  </div>
+</div>
+<!-- end product share -->

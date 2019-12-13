@@ -1,0 +1,62 @@
+<header id="header" class='style_1 header_transparent' {% if settings.use_float_header %} data-sticky = "true" {% else %}  data-sticky = "false" {% endif %}>
+  <div id="header_wrap" class=''>
+    <div class='container'>
+      <div class='row ega_stretch_height'>
+        <div class='col-xs-6 col-sm-3 ega_stretch_height'>
+          {% include 'logo' %}
+        </div>
+        <div class='col-xs-6 col-sm-9 ega_stretch_height'>
+          <div class='header_top hidden-xs'>
+            <div class='row'>
+              <div class='col-xs-12 col-md-6'>
+                <span>{{ settings.header_freeshipping }}</span>
+              </div>
+              <div class='col-xs-12 col-md-6'>
+                {% if settings.use_header_menu %}
+                <div class='header_menu'>
+                  <ul>
+                    {% for link in linklists[settings.header_menu].links %}
+                    <li><a href='{{ link.url }}' >{{ link.title }}</a></li>
+                    {% endfor %}
+                  </ul>
+                </div>
+                {% endif %}
+
+                {% if shop.customer_accounts_enabled %}
+                <ul class='nostyled header_customer'>
+                  {% if customer %}
+                  <li>
+                    <a href='/account' class=''>{{ 'layout.customer.my_account_html' | t: account: customer.name }}</a>
+                  </li>
+                  <li>
+                    <a href='/account/logout'>({{ 'layout.customer.log_out' | t }})</a>
+                  </li>
+                  {% else %}
+                  <li>
+                    <a href='/account/login' class=''>{{ 'layout.customer.log_in' | t }}</a>
+                  </li>
+                  <li>
+                    {{ 'layout.customer.or' | t }}
+                  </li>
+                  <li>
+                    <a href='/account/register' class=''>{{ 'layout.customer.create_account' | t }}</a>
+                  </li>
+                  {% endif %}
+                </ul>
+                {% endif %}
+
+                {% comment %}
+                {% include 'block_lang' %}
+                {% endcomment %}
+                {% include 'currency_picker' %}
+              </div>
+            </div>
+          </div>
+          <div class='header_bottom'>
+            {% include 'menu' %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,100 @@
+{% assign is_default_template = false %}
+
+{% if template == 'collection' or template == 'search' %}
+  {% assign is_default_template = true %}
+{% endif %}
+
+{% assign is_default_limit = false %}
+
+{% if template == 'collection' or template == 'collection.grid_2' or template == 'collection.grid_3' or template == 'collection.grid_4' or template == 'collection.list' or template == 'search' or template == 'search.grid_2' or template == 'search.grid_3' or template == 'search.grid_4' or template == 'search.list' %}
+  {% assign is_default_limit = true %}
+{% endif %}
+
+{% assign is_grid = true %}
+
+{% if template contains 'list' or settings.collection_viewmode contains 'list' %}
+  {% assign is_grid = false %}
+{% endif %}
+
+{% if is_default_limit %}
+{% assign pagination_limit = settings.pagination_limit %}
+
+{% else %}
+{% if template contains '_12' %}
+{% assign pagination_limit = 12 %}
+
+{% elsif template contains '_24' %}
+{% assign pagination_limit = 24 %}
+{% endif %}
+
+{% endif %}
+
+{% assign col_3 = 'col-xxs-12 col-xs-6 col-sm-6 col-md-3' %}
+{% assign col_4 = 'col-xxs-12 col-xs-6 col-sm-6 col-md-4' %}
+{% assign col_6 = 'col-xxs-12 col-xs-6' %}
+
+<div class='row'>
+  {% if settings.use_collection_sidebar %}
+  <div class='sidebar col-xs-12 col-sm-3 {{ settings.collection_sidebar_position }}'>
+    {% include 'collection_sidebar'%}
+  </div>
+  {% endif %}
+  <div id='shop' class='main_content col-xs-12{% if settings.use_collection_sidebar %} col-sm-9{% endif %}'>
+
+    {% if is_grid %} 
+     {% if is_default_template %}
+      {% assign collection_viewmode = settings.collection_viewmode %}
+      {% if collection_viewmode == 'grid_2' %}
+       {% assign coll = col_6 %}
+       {% assign img_size = 'large' %}
+
+      {% elsif collection_viewmode == 'grid_3' %}
+       {% assign coll = col_4 %}
+       {% assign img_size = 'large' %}
+
+      {% elsif collection_viewmode == 'grid_4' %}
+       {% assign coll = col_3 %}
+       {% assign img_size = 'medium' %}
+      {% endif %}
+    
+     {% else %}
+      {% if template contains 'grid_2' %}
+       {% assign coll = col_6 %}
+       {% assign img_size = 'large' %}
+
+      {% elsif template contains 'grid_3' %}
+       {% assign coll = col_4 %}
+       {% assign img_size = 'large' %}
+
+      {% elsif template contains 'grid_4' %}
+       {% assign coll = col_3 %}
+       {% assign img_size = 'medium' %}
+      {% endif %}
+     {% endif %}
+	{% else %}
+  	 {% assign img_size = 'medium' %}
+	{% endif %}
+
+    {% comment %}Include Snippet{% endcomment %}
+    {% if template contains 'collection' %}
+      {% include 'collection_content' %}    
+    {% elsif template contains 'search' %}
+      {% include 'search_content' %}    
+    {% endif %}
+
+  </div>
+</div>
+
+{% if template contains 'collection' %}
+<script>
+  document.addEventListener('DOMContentLoaded', function(e) {
+    EGA.initFilter();
+  })
+</script>
+{% else %}
+<script>
+  document.addEventListener('DOMContentLoaded', function(e) {
+    EGA.initSearch('search?q={{ search.terms }}');
+  })
+</script>
+{% endif %}

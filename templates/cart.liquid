@@ -1,0 +1,144 @@
+{% comment %}
+
+This is your /cart template.
+
+{% endcomment %}
+
+<div class="container clearfix">
+  {% include 'page_title' %}
+  <div class='line'></div>
+  {% if cart.item_count > 0 %}
+
+  <form action="/cart" method="post" novalidate class="cart">
+    <div class='cart_header text-center'>
+      <div class='row'>
+        <div class='col-xs-5'>{{ 'cart.label.product' | t }}</div>
+        <div class='col-xs-2'>{{ 'cart.label.price' | t }}</div>
+        <div class='col-xs-2'>{{ 'cart.label.quantity' | t }}</div>
+        <div class='col-xs-2'>{{ 'cart.label.total' | t }}</div>
+        <div class='col-xs-1'></div>
+      </div>
+    </div>
+
+    <div class='cart_table'>
+      {% for item in cart.items %}
+      <div class='cart_row'>
+        <div class='col-xs-5 cart_cell'>
+          <div class='product_image'>
+            <a href='{{ item.url | within: collections.all }}'>
+              {% comment %}
+              More image size options at:
+              - http://docs.shopify.com/themes/filters/product-img-url
+              {% endcomment %}
+              <img src="{{ item | img_url: 'compact' }}" alt="{{ item.title | escape }}">
+            </a>
+          </div>
+          <div class='product_detail'>
+            <div class="product_title">
+              <h4>
+                <a href='{{ item.url | within: collections.all }}'>
+                  {{ item.title }}
+                </a>
+              </h4>
+            </div>
+
+            {% unless item.variant.title contains 'Default' %}
+            <div class='product_variant'>
+              {{ item.variant.title }}
+            </div>
+            {% endunless %}
+
+          </div>
+        </div>
+        <div class='col-xs-2 cart_cell'>
+          <div class='product_price text-center'>
+            {{ item.price | money }}
+          </div>
+        </div>
+        <div class='col-xs-2 cart_cell'>
+          <div data-role='quantity' class="product_quantity style_1">
+            <button data-role='minus' type='button' class='btn minus'></button>
+            <div class='quantity_input_wrap'>
+              <input data-role='qty' type="text" id="" name="updates[]" value='{{ item.quantity }}' class="quantity_input">
+            </div>
+            <button data-role='plus' type='button' class='btn plus'></button>
+          </div>
+        </div>
+        <div class='col-xs-2 cart_cell'>
+          <div class='product_lineprice text-center'>
+            {{ item.line_price | money }}
+          </div>               
+        </div>
+        <div class='col-xs-1 cart_cell text-center'>
+          <a class='cart_remove' href='/cart/change?line={{ forloop.index }}&amp;quantity=0' title='{{ 'cart.general.remove' | t }}'>
+            <i class='fa fa-times'></i>
+          </a>          
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class='line'></div>
+
+    <div class='cart_footer style_1'>
+      <div class='row'>
+        <div class='col-xs-12 col-sm-6'>
+          <div class='cart_btn_wrap'>
+            <a href='/collections/all' class='btn'>
+              <i class='fa fa-caret-left'></i>
+              {{ 'cart.general.continue_shopping' | t }}
+            </a>
+            <button type="submit" name="update" class="btn">
+              <i class='fa fa-refresh'></i>
+              {{ 'cart.general.update' | t }}
+            </button>
+          </div>
+
+          {% if settings.use_cart_note %}
+          <div class='cart_note'>
+            <textarea name="note"  rows="6" cols="55" placeholder='{{ 'cart.general.note' | t }}'>
+              {{ cart.note }}
+            </textarea>
+          </div>
+          {% endif %}
+        </div>
+
+        <div class='col-xs-12 col-sm-6'>
+          <div class='cart_total_wrap clearfix'>
+            <h3 class='text-uppercase'>{{ 'cart.label.cart_total' | t }}</h3>
+            <p class='text-uppercase'>
+              <span>{{ 'cart.general.subtotal' | t }}</span>
+              <strong class='pull-right cart_total_price'><span id="bk-cart-subtotal-price">{{ cart.total_price | money }}</span></strong>
+            </p>
+            {% if cart.total_discounts > 0 %}
+            <p class='text-uppercase'>
+              {% assign savings = cart.total_discounts | money %}
+              {{ 'cart.general.savings_html' | t: price: savings }}
+            </p>
+            {% endif %}
+            <p class='clearfix'><em class='pull-right'>{{ 'cart.general.shipping_at_checkout' | t }}</em></p>
+            {% if settings.use_cart_method_img %}
+            <div class='cart_methods pull-left'>
+              <img src='{{ "cart_method_img.png" | asset_url }}' />
+            </div>
+            {% endif %}
+            <button type="submit" name="checkout" class="pull-right text-uppercase btn checkout">
+              {{ 'cart.general.button_checkout' | t }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  {% else %}
+  {% comment %}
+  The cart is empty
+  {% endcomment %}
+
+  <p>{{ 'cart.general.empty' | t }}</p>
+  <p>{{ 'cart.general.continue_browsing_html' | t }}</p>
+  <div class='line'></div>
+  {% include 'list_collection_grid' %}
+  {% endif %}
+</div>

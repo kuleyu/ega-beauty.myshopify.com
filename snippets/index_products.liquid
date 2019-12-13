@@ -1,0 +1,43 @@
+<div class='container clearfix'>
+  <section class='index_product_wrapper clearfix'>
+    <div class='page_title title_absolute'>
+      <h2>{{ settings.index_collection_title }}</h2>
+      <small>{{ settings.index_collection_sub_title }}</small>
+    </div>
+    <div class='row'>
+        <div class='col-xs-12 col-sm-10 col-md-12 col-sm-push-1 col-md-push-0 index_product grid_layout'>
+          {% for product in collections[settings.index_collection].products limit: settings.index_collection_limit %}
+          <div class='product_item style_1'>
+            {% include 'product_grid_item' %}
+          </div>
+          {% endfor %}
+        </div>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      $('.index_product').slick({
+        slidesPerRow: 4,
+        rows: 2,
+        prevArrow: '<a class="slick-prev"><i class="fa fa-angle-left"></i></a>',
+        nextArrow: '<a class="slick-next"><i class="fa fa-angle-right"></i></a>',
+        responsive: [
+          {
+            breakpoint: 991,
+            settings: {
+              slidesPerRow: 2
+            }
+          },
+          {
+            breakpoint: 767,
+            settings: {
+              slidesPerRow: 2,
+              arrows: false
+            }
+          }
+        ]
+      })
+    })
+  </script>
+</div>

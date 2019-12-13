@@ -1,0 +1,26 @@
+{% if settings.newsletter_form_action != blank %}
+<form accept-charset="UTF-8" action="{{ settings.newsletter_form_action }}" role="form" method="post" class="col-lg-5 col-md-6 col-xs-12 nopadding nobottommargin">
+  <div class="input-group">
+    <input type="email" value="{% if customer %}{{ customer.email }}{% endif %}" name="EMAIL" class="form-control ipnut_underline" placeholder="{{ 'general.newsletter_form.newsletter_email' | t}}" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}" autocorrect="off" autocapitalize="off">
+    <span class='input-group-btn'>
+      <button class="btn" type="submit">{{ 'general.newsletter_form.submit' | t }}</button>
+    </span>
+  </div>
+</form>
+{% else %}
+{% form 'customer' %}
+{{ form.errors | default_errors }}
+{% if form.posted_successfully? %}
+<p class="alert alert-success">{{ 'general.newsletter_form.confirmation' | t }}</p>
+{% else %}
+<div class="input-group">
+  <input type="email" class='form-control nobg notopborder norightborder noleftborder noradius' value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t}}" name="contact[email]" id="Email" class="form-control required email" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}" autocorrect="off" autocapitalize="off">
+  <input type="hidden" name="contact[tags]" value="newsletter">
+  <span class='input-group-btn'>
+    <button type="submit" class="btn" name="subscribe" id="subscribe" >{{ 'general.newsletter_form.submit' | t }}</button>
+  </span>
+</div>
+{% endif %}
+{% endform %}
+{% endif %}
+

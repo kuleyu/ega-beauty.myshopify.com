@@ -1,0 +1,28 @@
+<div class="product-main-image">
+	<div class="pd_slide_qv zoom_style">
+		<div class="img">
+			<img data-zoom-image='{{ product.featured_image.src | product_img_url:"master" }}' id='proimg_qv' src="{{ product.featured_image.src | product_img_url:'grande' }}" alt='{{ product.title }}' title='{{ product.title }}'>
+		</div>
+	</div>
+	<div id='pd_thumb_list_qv' class='pd_slide_thumb_qv slick_thumb zoom_style'>
+		{% for img in product.images %}
+		<div class="slick-slide">
+			<div class="img">
+				<a href="#" data-image="{{ img.src | product_img_url:'grande' }}" data-zoom-image="{{ img.src | product_img_url:'master' }}">
+					<img src="{{ img.src | product_img_url:'small' }}">
+				</a>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+  {% if product.images.size > 0 %}
+	<script>
+	$(document).ready(function() {
+		EGA.addScript.productZoom({
+			$pro_img_id: 'proimg_qv',
+			$pro_thumb_list: 'pd_thumb_list_qv',
+		});
+	})
+	</script>
+	{% endif %}
+</div>

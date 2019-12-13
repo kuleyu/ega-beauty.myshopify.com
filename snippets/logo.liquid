@@ -1,0 +1,9 @@
+<!-- Logo
+============================================= -->
+<div id="logo" class='dtable'>
+  {% if settings.use_logo %}
+	<a class='dtable_cell' href="/" class="" ><img src="{{ 'logo.png' | asset_url }}" alt="{{ page_title }}"></a>
+  {% else %}
+  <h1><a href='/'>{{ shop.name }}</a></h1>
+  {% endif %}
+</div><!-- #logo end -->

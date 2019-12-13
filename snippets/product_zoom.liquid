@@ -1,0 +1,75 @@
+<style>
+  #product_image_slide_main {
+    border: 1px solid #ddd;
+  }
+  #product_image_slide_main .slick-arrow {
+    z-index: 999;
+    background: rgba(0,0,0,0.3);
+  }
+  #product_image_slide_main .slick-prev {
+    left: 0;
+  }
+  #product_image_slide_main .slick-next {
+    right: 0
+  }
+  #product_image_slide_main .slick-arrow i {
+    color: #fff;
+  }
+</style>
+{% if product.images.size == 1 %}
+<img src='{{ featured_image | img_url: "grande" }}' alt='{{ featured_image.alt | escape }}' />
+{% elsif product.images.size > 1 %}
+<div id='product_image_slide_main'>
+  {% for image in product.images %}
+  <div class='slick-slide'>
+    <img class="cloudzoom" id='zoom1' 
+         data-cloudzoom = "zoomImage: '{{ image | img_url: 'master' }}', zoomSizeMode:'image'" 
+         src='{{ image | img_url: 'grande' }}' alt='{{ image.alt | escape }}'/>
+  </div>
+  {% endfor %}
+</div>
+<div id='product_image_slide_thumb'>
+  {% for image in product.images %}
+  <div class='slick-slide'>
+    <img src='{{ image | img_url: 'medium' }}' alt='{{ image.alt | escape }}'/>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function(event) {
+    $('#product_image_slide_main').slick({
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      fade: true,
+      arrows: true,
+      prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-angle-left"></i></button>',
+      nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>',
+      asNavFor: '#product_image_slide_thumb'
+    })
+
+    $('#product_image_slide_thumb').slick({
+      slidesToShow: 4,
+      slidesToScroll: 1,
+      asNavFor: '#product_image_slide_main',
+      focusOnSelect: true,
+      prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-angle-left"></i></button>',
+      nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>'
+    })
+
+    /*
+    CloudZoom.quickStart();
+    $.extend($.fn.CloudZoom.defaults, {
+      disableOnScreenWidth: 991      
+    });
+    */
+    options = {}; // This would be your options object.
+    $('#zoom1').CloudZoom(options);                  // jQuery way.
+    myInstance = new CloudZoom($('#zoom1'),options); // 'normal' way.
+
+    $('#product_image_slide_main .slick-arrow').hover(function() {
+      myInstance.closeZoom();      
+    })
+  })
+</script>

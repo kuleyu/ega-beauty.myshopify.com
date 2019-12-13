@@ -1,0 +1,88 @@
+<div class="container" >
+  {% include 'page_title' %}
+  <div class='line'></div>
+
+  <div class='map_wrapper margin_bottom_30'>
+    <div id='map_canvas' style='width: 100%; min-height: 350px;'>
+    </div>
+  </div>
+  <div class='row'>
+    <div class='col-xs-12 col-sm-6'>
+      <p class='margin_bottom_20'>{{ 'contact.form.caption' | t }}</p>
+      {% form 'contact' %}
+
+      {% if form.posted_successfully? %}
+      <p class="note form-success">
+        {{ 'contact.form.post_success' | t }}
+      </p>
+      {% endif %}
+
+      {{ form.errors | default_errors }}
+
+      <div class="form-group">
+        {% assign name_attr = 'contact.form.name' | t | handle %}
+        <label for="ContactFormName" class="">{{ 'contact.form.name' | t }}</label>
+        <input class='form-control' type="text" id="ContactFormName" name="contact[{{ name_attr }}]" placeholder="{{ 'contact.form.name' | t }}" autocapitalize="words" value="{% if form[name_attr] %}{{ form[name_attr] }}{% elsif customer %}{{ customer.name }}{% endif %}">
+      </div>
+
+      <div class="form-group">
+        <label for="ContactFormEmail" class="">{{ 'contact.form.email' | t }}</label>
+        <input class='form-control' type="email" id="ContactFormEmail" name="contact[email]" placeholder="{{ 'contact.form.email' | t }}" autocorrect="off" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}">
+      </div>
+
+      <div class="form-group">
+        {% assign name_attr = 'contact.form.phone' | t | handle %}
+        <label for="ContactFormPhone" class="">{{ 'contact.form.phone' | t }}</label>
+        <input class='form-control' type="tel" id="ContactFormPhone" name="contact[{{ name_attr }}]" placeholder="{{ 'contact.form.phone' | t }}" pattern="[0-9\-]*" value="{% if form[name_attr] %}{{ form[name_attr] }}{% elsif customer %}{{ customer.phone }}{% endif %}">
+      </div>
+
+      <div class="form-group">
+        <label for="ContactFormMessage" class="">{{ 'contact.form.message' | t }}</label>
+        <textarea class='form-control' rows="6" id="ContactFormMessage" name="contact[body]" placeholder="{{ 'contact.form.message' | t }}">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+      </div>
+
+      <input type="submit" class="btn btn-block" value="{{ 'contact.form.send' | t | upcase }}">
+
+      {% endform %}
+    </div>
+    <div class='col-xs-12 col-sm-4 col-md-3 col-sm-push-1'>
+      <div class='contact_shop_information'>
+        <address>
+          {% if settings.use_contact_logo %}
+          <p class='margin_bottom_30'><img src='{{ "contact_logo.png" | asset_url }}' /></p>
+          {% endif %}
+
+          {% if settings.contact_shop_title != '' %}
+          <p>{{ settings.contact_shop_title }}</p>
+          {% endif %}
+
+          {% if settings.contact_shop_address != '' %}
+          <p>{{ settings.contact_shop_address }}</p>
+          {% endif %}
+
+          {% if settings.contact_shop_hotline != '' %}
+          <p><a href='tel:{{ settings.contact_shop_hotline }}'>{{ settings.contact_shop_hotline }}</a></p>
+          {% endif %}
+
+          {% if settings.contact_shop_email != '' %}
+          <p><a href='mailto:{{ settings.contact_shop_email }}'>{{ settings.contact_shop_email }}</a></p>
+          {% endif %}
+        </address>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function myMap() {
+    var myCenter = new google.maps.LatLng({{ settings.contact_coordinates }});
+    var mapCanvas = document.getElementById("map_canvas");
+    var mapOptions = {
+      center: myCenter, 
+      zoom: 5
+    };
+    var map = new google.maps.Map(mapCanvas, mapOptions);
+    var marker = new google.maps.Marker({position:myCenter});
+    marker.setMap(map);
+  }
+</script>

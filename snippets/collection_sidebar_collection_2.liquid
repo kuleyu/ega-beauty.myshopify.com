@@ -1,0 +1,28 @@
+{% if settings.use_sidebar_2 %}
+<div class="widget clearfix">
+  {% assign sidebar_collection_2 = collections[settings.sidebar_collection_2] %}
+  <div class='widget_title'>
+    <h4><a href='{{sidebar_collection_2.url}}'>{{ settings.sidebar_title_2 }}</a></h4>
+  </div>
+  <div class='widget_content'>
+    {% for product in sidebar_collection_2.products limit: settings.sidebar_collection_limit_2 %}
+    <div class="spost clearfix">
+      <div class="entry-image">
+        <a href="{{ product.url }}"><img src="{{ product.featured_image | img_url: sidebar_product_imgsize }}" alt="{{ product.title}}"></a>
+      </div>
+      <div class="entry-c">
+        <div class="entry-title">
+          <h4><a href="{{ product.url }}">{{ product.title }}</a></h4>
+        </div>
+        <ul class="entry-meta">
+          <li class="color">
+            <ins>{{ product.variants.first.price | money }}</ins>
+            {% if product.variants.first.compare_at_price > product.variants.first.price %}<del>{{ product.variants.first.compare_at_price | money }}</del>{% endif %} 
+          </li>
+        </ul>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}

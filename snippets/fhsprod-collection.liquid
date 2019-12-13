@@ -1,0 +1,54 @@
+<script type="text/javascript">
+  if(!FHSPROD_product_list )
+    var FHSPROD_product_list = [];
+  FHSPROD_product_list = FHSPROD_product_list.concat( [
+  {% for product in collection.products limit: product_limit %}
+  	{
+		  "available" : {{product.available}},
+          id: {{product.id}},
+          handle: "{{product.handle}}",
+          price: {{product.price}},
+          collection_ids : "{%for c in product.collections %}{{c.id}};{%endfor%}",
+          {% if product.compare_at_price %}
+          compare_at_price: {{product.compare_at_price}},
+          {% endif %}
+          compare_at_price_max: {{product.compare_at_price_max}},
+          compare_at_price_min: {{product.compare_at_price_min}},
+          {% if product.published_at %}
+          published_at: "{{product.published_at}}",
+          {% endif %}
+          published_at_min: "{{product.published_at_min}}",
+          published_at_max: "{{product.published_at_max}}",
+          "tags":"{{product.tags | join: ', ' | replace: '"' , '\"' }}",
+          images: [
+          {% for img in product.images %}
+              {
+                  product_id: {{img.product_id}},
+                  id : {{ img.id }},
+                  src: "{{img.src}}",
+                  attached_to_variant: "{{img.attached_to_variant}}",
+                  position: {{img.position}}
+              }
+              {% if forloop.last == false %},{% endif %}
+          {% endfor%}
+          ],
+          variants: [ 
+            {% for va in product.variants %}
+            {    	
+              id: {{va.id}},
+              price: {{va.price}},
+              {% if va.compare_at_price %}
+              compare_at_price: {{va.compare_at_price}},
+              {% endif %}
+              quantity: {{va.inventory_quantity}},
+              url: "{{va.url}}",
+              weight: {{va.weight}}
+            }
+			{% if forloop.last == false %},{% endif %}
+            {% endfor %}
+          ]},
+  {%endfor%}
+            
+  ]);
+
+</script>

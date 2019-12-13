@@ -1,0 +1,31 @@
+<div class="widget clearfix">
+  <div class="widget_title">
+    <h3>{{ 'blogs.sidebar.recent_articles' | t }}</h3>
+  </div>
+  <div class="widget_content">
+    {% for article in blogs[blog.handle].articles limit: settings.blog_sidebar_recent_articles_limit %}
+    <div class="widget_item article_item">
+      <div class="item_inner">
+        <div class="item_image">
+          <a href="{{ article.url }}">
+            {% if article.image %}
+            <picture >
+              <source media="(max-width: 991px)" srcset="{{ article.image.src | img_url: 'medium' }}" >
+            <img data-lazyload="{{ article.image.src | img_url: 'compact' }}" alt="{{ article.title }}" >
+            </picture>
+            {% endif %} 
+          </a>
+        </div>
+        <div class="item_detail">
+          <div class="item_title">
+            <h4><a href="{{ article.url }}">{{ article.title }}</a></h4>
+          </div>
+          <div class="article_date">
+            {{ article.published_at | date: format: 'month_day_year' }}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>

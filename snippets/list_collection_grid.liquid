@@ -1,0 +1,11 @@
+<div class='grid_layout'>
+  <div class='row'>
+    {% for collection in collections%}
+    {% unless collection.handle == 'frontpage' %}
+    <div class='col-xxs-12 col-xs-6 col-sm-4 col-md-3 collection_item style_1'>
+      {% include 'list_collection_grid_item' %}
+    </div>
+    {% endunless %}
+    {% endfor %}
+  </div>
+</div>

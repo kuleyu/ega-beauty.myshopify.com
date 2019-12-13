@@ -1,0 +1,26 @@
+{% if blog.tags.size > 0 %}
+<div class="widget clearfix">
+  <div class="widget_title">
+    <h3>{{ 'blogs.sidebar.tags' | t }}</h3>
+  </div>
+  <div class="widget_content">
+    <ul class='tag_group nostyled noleftpadding'>
+      {% for tag in blog.tags %}
+      <li class='tag'>
+        {% if current_tags contains tag %}
+        <a href=''>
+          <i class='fa fa-tag'></i>
+          {{ tag }}
+        </a>
+        {% else %}
+        <a href='/blogs/news/tagged/{{ tag | handleize }}'>
+          <i class='fa fa-tag'></i>
+          {{ tag }}
+        </a>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endif %}

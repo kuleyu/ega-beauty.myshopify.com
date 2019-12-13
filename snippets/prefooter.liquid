@@ -1,0 +1,223 @@
+<div class='prefooter'>
+  <div class="container">
+    <div class='row'>
+      <!-- Footer Widgets
+============================================= -->
+      {% if settings.use_prefooter_item_4 %}
+      <div class="notoppadding nobottompadding noborder prefooter_one footer_address col-xs-12 col-md-3">
+        <address>
+          {% if settings.prefooter_address != '' %}
+          <p class='noborder nopadding'>{{ settings.prefooter_address }}</p>
+          {% endif %}
+
+          {% if settings.prefooter_hotline != '' %}
+          <p>
+            <a href='tel:{{ settings.prefooter_hotline }}' >
+              <i class='fa fa-phone margin_right_10 hidden-lg hidden-md'></i> {{ settings.prefooter_hotline }}
+            </a>
+          </p>
+          {% endif %}
+
+          {% if settings.prefooter_email %}
+          <p>
+            <a href='mailto:{{ settings.prefooter_email }}'>
+              <i class='fa fa-envelope margin_right_10 hidden-md hidden-lg'></i> {{ settings.prefooter_email }}
+            </a>
+          </p>
+          {% endif %}
+        </address>
+
+        <div class='hidden-xs hidden-sm'>
+          {% if settings.use_prefooter_item_4_1 %}
+          <a href="{{ settings.use_prefooter_item_link_4_1 }}" class="social-icon si-large si_transparent noborder si-android">
+            <i class="fa fa-android"></i>
+            <i class="fa fa-android"></i>
+          </a>
+          {% endif %}
+
+          {% if settings.use_prefooter_item_4_2 %}
+          <a href="{{ settings.use_prefooter_item_link_4_2 }}" class="social-icon si-large si_transparent noborder si_apple">
+            <i class="fa fa-apple"></i>
+            <i class="fa fa-apple"></i>
+          </a>
+          {% endif %}
+
+          {% if settings.use_prefooter_item_4_3 %}
+          <a href="{{ settings.use_prefooter_item_link_4_3 }}" class="social-icon si-large si_transparent noborder si_window">
+            <i class="fa fa-windows"></i>
+            <i class="fa fa-windows"></i>
+          </a>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+
+      {% if settings.use_prefooter_item_1 %}
+      <div class="prefooter_one col-xs-12 col-md-3">
+        <h3 class='collapse_trigger'>{{ settings.prefooter_item_title_1 }}
+          <i class='hidden-lg hidden-md pull-right fa fa-caret-right'></i>
+        </h3>
+        <ul class='collapse_content' id='collapseExample'>
+          {% for link in linklists[settings.prefooter_item_1].links %}
+          <li><a href="{{link.url}}">{{link.title}}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+
+      {% if settings.use_prefooter_item_2 %}
+      <div class="prefooter_one col-xs-12 col-md-3">
+        <h3 class='collapse_trigger'>{{ settings.prefooter_item_title_2 }}
+          <i class='hidden-lg hidden-md pull-right fa fa-caret-right'></i>
+        </h3>
+        <ul class='collapse_content'>
+          {% for link in linklists[settings.prefooter_item_2].links %}
+          <li><a href="{{link.url}}">{{link.title}}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+
+      {% if settings.use_prefooter_item_3 %}
+      <div class="prefooter_one col-xs-12 col-md-3">
+        <h3 class='collapse_trigger'>{{ settings.prefooter_item_title_3 }}
+          <i class='hidden-lg hidden-md pull-right fa fa-caret-right'></i>
+        </h3>
+        <ul class='collapse_content'>
+          {% for link in linklists[settings.prefooter_item_3].links %}
+          <li><a href="{{link.url}}">{{link.title}}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+
+      {% if settings.use_payment_methods %}
+      <div class="prefooter_one col-xs-12 payment_methods">
+        {% if settings.payment_methods_title != '' %}
+        <h3 class='hidden-lg hidden-md collapse_trigger'>
+          {{ settings.payment_methods_title }}
+          <i class='hidden-lg hidden-md pull-right fa fa-caret-right'></i>
+        </h3>
+        {% endif %}
+        <ul{% if settings.payment_methods_title != '' %} class='collapse_content'{% endif %}>
+          {% if settings.use_payment_method_1 %}
+          <li>
+            <a href="/cart" title="Visa">
+              <i class='fa fa-cc-visa'></i>
+            </a>
+          </li>
+          {% endif %}
+
+          {% if settings.use_payment_method_2 %}
+          <li>
+            <a href="/cart" title="Master Card">
+              <i class='fa fa-cc-mastercard'></i>
+            </a>
+          </li>
+          {% endif %}
+
+          {% if settings.use_payment_method_3 %}
+          <li>
+            <a href="/cart" title="Discover">
+              <i class='fa fa-cc-discover'></i>
+            </a>
+          </li>
+          {% endif %}
+
+          {% if settings.use_payment_method_4 %}
+          <li>
+            <a href="/cart" title="American Express">
+              <i class='fa fa-cc-amex'></i>
+            </a>
+          </li>
+          {% endif %}
+
+          {% if settings.use_payment_method_5 %}
+          <li>
+            <a href="/cart" title="Paypal">
+              <i class='fa fa-cc-paypal'></i>
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+      {% endif %}
+    </div>
+
+    {% if settings.use_footer_si_group %}
+    <div class='social_group'>
+      {% if settings.use_footer_si_1 %}
+      <a href="{{ settings.footer_si_link_1 }}" class="social-icon si-facebook">
+        <i class="fa fa-facebook"></i>
+        <i class="fa fa-facebook"></i>
+      </a>
+      {% endif %}
+
+      {% if settings.use_footer_si_2 %}
+      <a href="{{ settings.footer_si_link_2 }}" class="social-icon si-twitter">
+        <i class="fa fa-twitter"></i>
+        <i class="fa fa-twitter"></i>
+      </a>
+      {% endif %}
+
+      {% if settings.use_footer_si_3 %}
+      <a href="{{ settings.footer_si_link_3 }}" class="social-icon si-instagram">
+        <i class="fa fa-instagram"></i>
+        <i class="fa fa-instagram"></i>
+      </a>
+      {% endif %}
+
+      {% if settings.use_footer_si_4 %}
+      <a href="{{ settings.footer_si_link_4 }}" class="social-icon si-youtube">
+        <i class="fa fa-youtube"></i>
+        <i class="fa fa-youtube"></i>
+      </a>
+      {% endif %}
+
+      {% if settings.use_footer_si_5 %}
+      <a href="{{ settings.footer_si_link_5 }}" class="social-icon si-pinterest">
+        <i class="fa fa-pinterest"></i>
+        <i class="fa fa-pinterest"></i>
+      </a>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    <div class='hidden-md hidden-lg'>
+      {% if settings.use_prefooter_item_4_1 %}
+      <a href="{{ settings.use_prefooter_item_link_4_1 }}" class="social-icon si-large si_transparent noborder si-android">
+        <i class="fa fa-android"></i>
+        <i class="fa fa-android"></i>
+      </a>
+      {% endif %}
+
+      {% if settings.use_prefooter_item_4_2 %}
+      <a href="{{ settings.use_prefooter_item_link_4_2 }}" class="social-icon si-large si_transparent noborder si_apple">
+        <i class="fa fa-apple"></i>
+        <i class="fa fa-apple"></i>
+      </a>
+      {% endif %}
+
+      {% if settings.use_prefooter_item_4_3 %}
+      <a href="{{ settings.use_prefooter_item_link_4_3 }}" class="social-icon si-large si_transparent noborder si_window">
+        <i class="fa fa-windows"></i>
+        <i class="fa fa-windows"></i>
+      </a>
+      {% endif %}
+    </div>
+  </div>
+</div><!---------- Prefooter End ------------->
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if(window.innerWidth < 991) {
+      $('.collapse_trigger').on('click', function() {
+        var collapseTrigger = $(this);
+        var collapseContent = $(this).closest('.prefooter_one').find('.collapse_content');
+        collapseContent.toggle(500, function() {
+          collapseTrigger.find('i').toggleClass('fa-caret-right fa-caret-down');
+        })
+      })
+    }
+  })
+</script>

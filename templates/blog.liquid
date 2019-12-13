@@ -1,0 +1,24 @@
+{% assign article_size = 'master' %}
+{% assign blog_pagination_limit = settings.blog_pagination_limit %}
+
+<div class="container clearfix">
+  {% include 'page_title' %}
+  <div class='line'></div>
+
+  <div class='row'>
+    <div id='blog' class='main_content blog_list col-xs-12 col-sm-8'>
+      {% paginate blog.articles by blog_pagination_limit %}
+      {% for article in blog.articles limit: blog_pagination_limit %}
+      <div class='article_item style_1'>
+      {% include 'article_item' %}
+      </div>
+      <div class='line'></div>
+      {% endfor %}
+      {% include 'pagination' %}
+      {% endpaginate %}
+    </div>
+    <div class='sidebar col-xs-12 col-sm-4'>
+      {% include 'blog_sidebar' %}
+    </div>
+  </div>
+</div>

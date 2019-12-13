@@ -1,0 +1,95 @@
+{% if template contains 'index' or template contains 'product' or template contains 'collection' or template contains 'search'%}
+    {% if template contains 'index' %}
+        <script src="{{ 'fhs.lbl.js' | asset_url }}" async></script>
+    {% else %}
+         {{ "fhs.lbl.js" | asset_url | script_tag }}
+    {% endif %}
+{% endif %}
+<script type="text/javascript">
+	<!-- Copy Right by Frehhshopify -->
+	if ( 'undefined' == (typeof FHSPROD) ) {
+	    var FHSPROD = {};
+	}
+	if ('undefined' == (typeof FHSPROD.labelme)) {
+	    FHSPROD.labelme = {};
+	}
+	FHSPROD.labelme.server_date = '{{ "now" | date: "%m/%d/%Y" }}';
+
+{% if template contains 'product' %}
+  	FHSPROD.labelme.pg = 'product';
+{% else if template contains 'collection' or template contains 'index' or template contains 'search' %}
+  	FHSPROD.labelme.pg = 'collection';   
+{% endif %}
+
+  	if('undefined' == (typeof FHSPROD.labelme.product_list))
+  		FHSPROD.labelme.product_list = [];
+  
+{% if template contains 'product' %}
+  {% assign total_quantity = 0 %}
+  FHSPROD.labelme.product_main = {
+    "available" : {{product.available}},
+    "id": {{product.id}},
+    "collection_ids" : "{%for c in product.collections %}{{c.id}};{%endfor%}",
+    "handle": "{{product.handle}}",
+"available" : {{product.available}},
+  {% if product.price %}
+  "price": {{product.price}},
+  {% endif %}
+  {% if product.compare_at_price %}
+  "compare_at_price": {{product.compare_at_price}},
+  {% endif %}
+  {% if product.compare_at_price_max %}
+  "compare_at_price_max": {{product.compare_at_price_max}},
+  {% endif %}
+  {% if product.compare_at_price_min %}
+  "compare_at_price_min": {{product.compare_at_price_min}},
+  {% endif %}
+  {% if product.published_at %}
+  "published_at": "{{product.published_at}}",
+  {% endif %}
+  {% if product.published_at_min %}
+  "published_at_min": "{{product.published_at_min}}",
+  {% endif %}
+  {% if product.published_at_max %}
+  "published_at_max": "{{product.published_at_max}}",
+  {% endif %}
+  "tags":"{{product.tags | join: ', ' | replace: '"' , '\"' }}",
+    "images": [
+    {% for img in product.images %}
+    	{
+    		"product_id": {{img.product_id}},
+    		"id" : {{ img.id }},
+    		"src": "{{img.src}}",
+    		"attached_to_variant": "{{img.attached_to_variant}}",
+    		"position": {{img.position}}
+  		}
+		{% unless forloop.last %},{% endunless %}
+    {% endfor%}
+    ],
+    "variants": [ 
+      {% for va in product.variants %}
+      {    	
+        "id": {{va.id}},
+       {% if va.price %}
+              "price": {{va.price}},
+		{% endif %}
+        {% if va.compare_at_price %}
+              "compare_at_price": {{va.compare_at_price}},
+        {% endif %}
+		
+    	{% assign total_quantity = total_quantity | plus:va.inventory_quantity %}
+        "quantity": {{va.inventory_quantity}},
+	
+        "url": "{{va.url}}",
+        "weight":  "{{va.weight}}"
+      }
+      {% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    ],
+    "total_quantity": {{total_quantity}}
+    };
+{% else %}
+   FHSPROD.labelme.product_main = null;
+{% endif %}
+  
+</script>

@@ -1,0 +1,26 @@
+{% if search.results == empty %}
+0 product
+{% else %}
+{% paginate search.results by pagination_limit %}
+<p class='result_title'>
+  <span>{{ search.results_count }}</span> {{ 'general.search.results_for' | t }} "<span>{{ search.terms}}</span>"
+</p>
+<div class="search_box">
+  <form action="/search">
+    <input type="text" placeholder="Search" name="q" value="{{ search.terms | escape }}"  />
+    <input type="submit" value="" />
+  </form>
+</div>
+{% if is_grid %}
+{% include 'search_grid' %}
+{% else %}
+{% include 'search_list' %}
+{% endif %}
+{% if paginate.pages > 1 %}
+<div class='line'></div>
+<div class='collection_pagination clearfix text-right'>
+  {% include 'pagination' %}
+</div>
+{% endif %}
+{% endpaginate %}
+{% endif %} 

@@ -1,0 +1,10 @@
+{% include 'page_title' %}
+<div class='row'>
+  {% if settings.use_collection_sidebar %}
+  <div class='col-xs-12 col-md-3 {{ settings.collection_sidebar_position }}'></div>
+  {% endif %}
+  <div class='col-xs-12{% if settings.use_collection_sidebar %} col-md-9{% endif %}'>
+    {% include 'collection_toolbar' %}
+    <div class='line'></div>
+  </div>
+</div>

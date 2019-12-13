@@ -1,0 +1,35 @@
+{% if product.images.size == 1 %}
+<img src='{{ featured_image | img_url: "grande" }}' alt='{{ featured_image.alt | escape }}' />
+{% elsif product.images.size > 1 %}
+<div id='product_image_slide_main_qv'>
+  {% for image in product.images %}
+  <div class='slick-slide'>
+    <img src='{{ image | img_url: 'grande' }}' alt='{{ image.alt | escape }}'/>
+  </div>
+  {% endfor %}
+</div>
+<div id='product_image_slide_thumb_qv' class='slide_thumb'>
+  {% for image in product.images %}
+  <div class='slick-slide'>
+    <img src='{{ image | img_url: 'compact' }}' alt='{{ image.alt | escape }}'/>
+  </div>
+  {% endfor %}
+</div>
+<script>
+  $('#product_image_slide_main_qv').slick({
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    asNavFor: '#product_image_slide_thumb_qv'
+  })
+
+  $('#product_image_slide_thumb_qv').slick({
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    asNavFor: '#product_image_slide_main_qv',
+    focusOnSelect: true,
+    prevArrow: '<button type="button" class="slick-prev"><i class="fa fa-angle-left"></i></button>',
+    nextArrow: '<button type="button" class="slick-next"><i class="fa fa-angle-right"></i></button>'
+  })
+</script>
+{% endif %}

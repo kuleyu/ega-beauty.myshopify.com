@@ -1,0 +1,5 @@
+{% if settings.use_sidebar_banner %}
+<div class="widget clearfix">
+  <a href='{{ settings.sidebar_banner_link }}'><img alt='{{ page_title }}' src="{{ 'sidebar_banner.jpg' | asset_url }}" style='height:auto; width: 100%;'/></a>
+</div>
+{% endif %}

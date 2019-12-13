@@ -1,0 +1,71 @@
+{% assign total_quantity = 0 %}
+<script type='text/template' id='fhs_meta_{{product.handle}}'>
+{
+          "id": {{product.id}},
+          "collection_ids" : "{%for c in product.collections %}{{c.id}};{%endfor%}",
+          "handle": "{{product.handle}}",
+          {% if product.price %}
+          "price": {{product.price}},
+          {% endif %}
+		  {% if product.compare_at_price %}
+          "compare_at_price": {{product.compare_at_price}},
+          {% endif %}
+          {% if product.compare_at_price_max %}
+          "compare_at_price_max": {{product.compare_at_price_max}},
+          {% endif %}
+          {% if product.compare_at_price_min %}
+          "compare_at_price_min": {{product.compare_at_price_min}},
+          {% endif %}
+          {% if product.available %}
+          "available": true,
+          {% else %}
+          "available": false,
+          {% endif %}
+          {% if product.published_at %}
+          "published_at": "{{product.published_at}}",
+          {% endif %}
+          {% if product.published_at_min %}
+          "published_at_min": "{{product.published_at_min}}",
+          {% endif %}
+          {% if product.published_at_max %}
+          "published_at_max": "{{product.published_at_max}}",
+          {% endif %}
+          "tags":"{{product.tags | join: ', ' | replace: '"' , '\"' }}",
+          "images": [
+          {% for img in product.images %}
+              {
+                  "product_id": {{img.product_id}},
+                  "id" : {{ img.id }},
+                  "src": "{{img.src}}",
+                  "attached_to_variant": "{{img.attached_to_variant}}",
+                  "position": {{img.position}}
+              }
+              {% if forloop.last == false %},{% endif %}
+          {% endfor%}
+          ],
+          "variants": [ 
+            {% for va in product.variants %}
+            {    	
+              "id": {{va.id}},
+              {% if va.price %}
+              "price": {{va.price}},
+              {% endif %}
+              {% if va.compare_at_price %}
+              "compare_at_price": {{va.compare_at_price}},
+              {% endif %}
+              
+              	{% assign total_quantity = total_quantity | plus:va.inventory_quantity %}
+              "quantity": {{va.inventory_quantity}},
+              
+              {% if va.url %}
+              "url": "{{va.url}}",
+              {% endif %}              
+              "weight":  "{{va.weight}}"
+                            
+            }
+            {% if forloop.last == false %},{% endif %}
+            {% endfor %}
+          ],
+          "total_quantity": {{total_quantity}}
+          }
+</script>

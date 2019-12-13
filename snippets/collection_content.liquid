@@ -1,0 +1,17 @@
+{% if collection.products_count == 0 %}
+	0 products
+{% else %}
+	{% paginate collection.products by pagination_limit %}
+	{% if is_grid %}
+		{% include 'collection_grid' %}
+	{% else %}
+		{% include 'collection_list' %}
+	{% endif %}
+	{% if paginate.pages > 1 %}
+	<div class='line'></div>
+	<div class='collection_pagination clearfix text-right'>
+	  {% include 'pagination' %}
+	</div>
+	{% endif %}
+	{% endpaginate %}
+{% endif %}

@@ -1,0 +1,22 @@
+{% if settings.use_sidebar_category %}
+<div class="widget clearfix">
+  <div class='widget_title'>
+    <h3>{{ settings.sidebar_category_title }}</h3>
+  </div>
+  <div class='widget_content'>
+    <ul class=''>
+      {% if linklists[settings.sidebar_categories].links.size > 0 %}
+      {% assign sidebar_category = linklists[settings.sidebar_categories] %}
+      {% else %}
+      {% assign sidebar_category = linklists.main-menu %}
+      {% endif %}
+
+      {% for link in sidebar_category.links %}
+      {% if linklists[link.handle].links == empty %}
+      <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+      {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endif %}

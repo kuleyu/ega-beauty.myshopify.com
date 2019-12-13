@@ -1,0 +1,47 @@
+{% layout none %}
+{% if search.results == empty %}
+0 product
+{% else %}
+
+{% capture results %}
+{% for product in search.results limit: 5 %}
+{
+"title": {{ product.title | json }},
+"url": {{ product.url | json }},
+"thumbnail": "{{ product.featured_image.src | img_url: 'thumb' }}"
+}{% unless forloop.last %},{% endunless %}
+
+{% endfor %}
+{% endcapture %}
+
+{
+"results": [{{ results }}]
+}
+
+{% comment %}
+<ul class='list_layout'>
+
+	{% for product in search.results limit: 5 %}
+
+	<li class="item_inner clearfix">
+		<div class="product_image">
+			<a href="{{ product.url }}">
+				<img src="{{ product.featured_image.src | img_url: 'thumb' }}" alt="{{ product.title }}"></a>
+		</div>
+		<div class="product_detail">
+			<div class="product_title">
+				<h4><a href="{{ product.url }}">{{ product.title }}</a></h4>
+			</div>
+
+			<div class="product_price">
+				<ins>{{ product.price }}</ins>
+				{% if product.compare_at_price_min > product.price_min %}
+				<del>{{ product.compare_at_price }}</del>
+				{% endif %}
+			</div>
+		</div>
+	</li>
+	{% endfor %}
+</ul>
+{% endcomment %}
+{% endif %} 

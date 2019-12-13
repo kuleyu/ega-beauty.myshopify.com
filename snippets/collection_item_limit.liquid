@@ -1,0 +1,33 @@
+{% assign is_collection = false %}
+{% if template == 'collection' or template == 'collection.grid_2' or template == 'collection.grid_3' or template == 'collection.grid_4' or template == 'collection.list' or template == 'search' or template == 'search.grid_2' or template == 'search.grid_3' or template == 'search.grid_4' or template == 'search.list' %}
+{% assign is_collection = true %}
+{% endif %}
+<div class='item_limit btn-group dropdown'>
+  <!--
+<label>{{ 'collections.sorting.title' | t }}</label>
+-->
+  <button class="btn dropdown-toggle" data-toggle="dropdown">
+    <!-- <label>{{ 'collections.sorting.title' | t }}</label> -->
+    <label>Show</label>
+    {% if is_collection %}
+    <span>{{ settings.pagination_limit }}</span>
+    {% elsif template contains '_12' %}
+    <span>12</span>
+    {% elsif template contains '_24' %}
+    <span>24</span>
+    {% endif %}
+    <i class="fa fa-angle-down"></i>
+  </button>
+
+  <ul class="dropdown-menu" role="menu">
+    <li class="{% if is_collection == true %}active{% endif %}">
+      <a href="">{{ settings.pagination_limit }}</a>
+    </li>
+    <li class="{% if template contains '_12' %}active{% endif %}">
+      <a href="_12">12</a>
+    </li>
+    <li class='{% if template contains '_24' %}active{% endif %}'>
+      <a href="_24">24</a>
+    </li>
+  </ul>
+</div>

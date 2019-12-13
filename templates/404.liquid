@@ -1,0 +1,16 @@
+<div class="container">
+  {% include 'page_title' %}
+  <div class='line'></div>
+
+  <p class="error404 text-center margin_bottom_20">
+    {{ 'general.404.heading_html' | t | upcase }}
+  </p>
+
+  <p class='text-center margin_bottom_20'>{{ 'general.404.subtext_html' | t }}</p>
+  
+  <p class='text-center margin_bottom_20'>
+    <a href='/' class='btn margin_right_10'>{{ 'general.404.return_to_home' | t | upcase }}</a>
+    <a href='/collections/all' class='btn btn_border'>{{ 'general.404.return_to_shop' | t | upcase }}</a>
+  </p>
+
+</div>

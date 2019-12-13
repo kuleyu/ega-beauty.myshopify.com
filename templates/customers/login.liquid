@@ -1,0 +1,87 @@
+<div class="container customer">
+  {% include 'page_title' %}
+  <div class='line'></div>
+  <div class='row'>
+    <div class='col-xs-12 col-md-5 col-sm-6 login_form'>
+      <div id="CustomerLoginForm">
+        {% form 'customer_login' %}
+        {{ form.errors | default_errors }}
+        <div class="form-group{% if form.errors contains 'email' %} has-error{% endif %}">
+          <label class='margin_right_10' for="CustomerEmail">{{ 'customer.login.email' | t }}</label><span class='text_required'>*</span>
+          <input type="email" name="customer[email]" id="CustomerEmail" class="form-control" placeholder="{{ 'customer.login.email' | t }}" autocorrect="off" autocapitalize="off" autofocus>
+        </div>
+
+        {% if form.password_needed %}
+        <div class="form-group{% if form.errors contains 'password' %} has-error{% endif %}">
+          <label class='margin_right_10' for="CustomerPassword" class="">{{ 'customer.login.password' | t }}</label><span class='text_required'>*</span>
+          <input type="password" value="" name="customer[password]" id="CustomerPassword" class="form-control" placeholder="{{ 'customer.login.password' | t }}">
+        </div>
+        {% endif %}
+        <p class='clearfix submit_group'>
+          <input type="submit" class="btn login_btn" value="{{ 'customer.login.sign_in' | t | upcase }}">
+          <a class='pull-right' href="/">{{ 'customer.login.cancel' | t }}</a>
+        </p>
+        {% if form.password_needed %}
+        <p><a href="#recover" id="RecoverPassword">{{ 'customer.login.forgot_password' | t }}</a></p>
+        {% endif %}
+        {% endform %}
+      </div>
+      {% comment %}
+      JS shows/hides this form in timber.loginForms()
+      {% endcomment %}
+      <div id="RecoverPasswordForm" style="display: none;">
+        <p class='alert alert-info'>{{ 'customer.recover_password.subtext' | t }}</p>
+
+        {% form 'recover_customer_password' %}
+
+        {{ form.errors | default_errors }}
+
+        {% comment %}
+        Assign variable to be used after timber.init() is run in theme.liquid
+        {% endcomment %}
+        {% if form.posted_successfully? %}
+        {% assign resetPassword = true %}
+        {% endif %}
+        <div class="form-group">
+          <label for="RecoverEmail" class="">{{ 'customer.recover_password.email' | t }}</label>
+          <input type="email" value="" name="email" id="RecoverEmail" class="form-control" placeholder="{{ 'customer.recover_password.email' | t }}" autocorrect="off" autocapitalize="off">
+        </div>
+        <p class='clearfix submit_group'>
+          <input type="submit" class="btn" value="{{ 'customer.recover_password.submit' | t }}">
+          <a href='#' id="HideRecoverPasswordLink" class="pull-right">{{ 'customer.recover_password.cancel' | t }}</a>
+        </p>
+        {% endform %}
+
+      </div>
+    </div>
+    <div class='col-md-1 hidden-xs hidden-sm'></div>
+    <div class='col-xs-12 col-sm-6 login_new_account'>
+      <h3 class='h3 notopmargin margin_bottom_15'>{{ 'customer.login.new_customer' | t }}</h3>
+      <div class='margin_bottom_10'>
+        {{ 'customer.login.new_customer_content_html' | t }}
+      </div>
+      <a href="/account/register" class="btn">{{ 'layout.customer.create_account' | t | upcase }}</a>
+    </div>
+  </div>
+
+  {% comment %}
+  If accounts are set as optional, the following will be shown as an option
+  during checkout, not on the default /login page.
+  {% endcomment %}
+
+  {% if shop.checkout.guest_login %}
+  <hr>
+
+  <h2>{{ 'customer.login.guest_title' | t }}</h2>
+
+  {% form 'guest_login' %}
+  <input type="submit" class="btn" value="{{ 'customer.login.guest_continue' | t }}">
+  {% endform %}
+  {% endif %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      EGA.customer.showRecoverPassword();
+      EGA.customer.hideRecoverPassword()
+    })
+  </script>
+</div>

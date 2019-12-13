@@ -1,0 +1,24 @@
+{% if paginate.pages > 1%}
+<ul class="pagination">
+  {% if paginate.previous %}
+  <li class='prev'><a href="{{ paginate.previous.url }}"><i class='fa fa-angle-left'></i>{{ 'general.pagination.previous' | t }}</a></li>
+  {% else %}
+  <li class='disabled prev'><a><i class='fa fa-angle-left'></i>{{ 'general.pagination.previous' | t }}</a></li>
+  {% endif %}
+
+  {% for part in paginate.parts %}
+  {% assign page_num =  part.url | split: '='%}
+  {% if part.is_link %}
+  <li><a href="{{part.url}}" >{{ part.title }}</a></li>
+  {% else %}
+  <li class='{% if part.title == current_page %}active{% endif %}'><a>{{ part.title }}</a></li>
+  {% endif %}
+
+  {% endfor %}
+  {% if paginate.next %}
+  <li class='next' ><a href="{{ paginate.next.url }}">{{ 'general.pagination.previous' | t }}<i class='fa fa-angle-right'></i></a></li>
+  {% else %}
+  <li class='disabled next'><a>{{ 'general.pagination.previous' | t }}<i class='fa fa-angle-right'></i></a></li>
+  {% endif %}
+</ul>
+{% endif %}

@@ -1,0 +1,58 @@
+{% assign slideshow_layout_mode = settings.slideshow_layout_mode %}
+{% assign slideshow_autoplay = settings.use_slideshow_autoplay %}
+{% assign slideshow_autoplay_speed = settings.slideshow_autoplay_speed %}
+{% assign slideshow_fade = settings.slideshow_fade %}
+
+<div class='clearfix {% if slideshow_layout_mode == 'boxed' %}container{% endif %}'>
+
+  <div id="slider" class="slider dots_vertical">
+    {% for i in (1..4) %}
+    {% capture use_slide %}use_slideshow_item_{{i}}{% endcapture %}
+    {% capture image %}slideshow_{{i}}.jpg{% endcapture %}
+    {% capture link %}slideshow_link_{{i}}{% endcapture %}
+    {% capture title %}slideshow_title_{{i}}{% endcapture %}
+    {% capture content %}slideshow_content_{{i}}{% endcapture %}
+    {% capture btn_content_1 %}slideshow_btn_content_{{i}}_1{% endcapture %}
+    {% capture btn_link_1 %}slideshow_btn_link_{{i}}_1{% endcapture %}
+    {% capture btn_content_2 %}slideshow_btn_content_{{i}}_2{% endcapture %}
+    {% capture btn_link_2 %}slideshow_btn_link_{{i}}_{% endcapture %}
+
+    {% if settings[use_slide] %}
+    <div class=''>
+      <a href='{{settings[link]}}'>
+        <img src="{{ image | asset_url }}" alt='{{ settings[title] }}'>
+      </a>
+      <div class='slider_text'>
+        <h3>{{ settings[title] }}</h3>
+        <p>{{ settings[content] }}</p>
+        {% if settings[btn_content_1] != '' %}
+        <a class='btn' href='{{settings[btn_link_1]}}'>
+          {{ settings[btn_content_1] }}
+        </a>
+        {% endif %}
+        {% if settings[btn_content_2] != '' %}
+        <a class='btn' href='{{settings[btn_link_2]}}'>
+          {{ settings[btn_content_2] }}
+        </a>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+      $('.slider').slick({
+        arrows: false,
+        dots: true,
+        {% if slideshow_autoplay %}
+        autoplay:true,
+        autoplaySpeed: {{ slideshow_autoplay_speed }},
+        {% endif %}
+        fade: {{slideshow_fade}}
+      })
+    })
+    
+  </script>
+</div>

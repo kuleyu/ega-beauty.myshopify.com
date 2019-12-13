@@ -1,0 +1,18 @@
+<div class="widget_item product_item">
+  <div class='item_inner'>
+    <div class="item_image">
+      <a href="{{ product.url }}">
+        <img data-lazyload="{{ product.featured_image | img_url: sidebar_product_imgsize }}" alt="{{ product.title }}">
+      </a>
+    </div>
+    <div class="item_detail">
+      <div class="item_title">
+        <h4><a href="{{ product.url}}">{{ product.title }}</a></h4>
+      </div>
+      <div class="product_price">
+        <del>{% if product.variants.first.compare_at_price > product.variants.first.price %}{{ product.variants.first.compare_at_price | money }}{% endif %}</del>
+        <ins>  {{ product.variants.first.price | money }}</ins>
+      </div>
+    </div>
+  </div>
+</div>

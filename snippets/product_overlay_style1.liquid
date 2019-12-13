@@ -1,0 +1,34 @@
+<!-- product_overlay_style1 -->
+<div product_url='{{product.url}}' class="product_overlay style_1 hidden-sm hidden-xs" >
+		<div class="product-title">
+			<h4><a href="{{ product.url }}">{{ product.title }}</a></h4>
+		</div>
+		<div class="product-price">
+			<ins> {{ product.price | money }} </ins>
+			{% if product.variants.first.compare_at_price > product.price %}<del>{{ product.variants.first.compare_at_price | money }}</del>{% endif %}
+		</div>
+		<hr/>
+		<ul class='unstyled'>
+			{% assign prefix = settings.detail_prefix | append: '_' | append: settings.col_detail_prefix %}
+			{% for tag in product.tags %}
+			{% if tag contains prefix %}
+			{% assign suffix = tag | remove: prefix %}
+			{% assign tag_title = suffix | split: '_' | first %}
+			{% assign tag_detail = suffix | split: '_' | last %}
+			<li><strong>{{ tag_title }}: </strong><span>{{tag_detail}}</span></li>
+			{% endif %}
+			{% endfor %}
+		</ul>
+		{% if product.options.size == 1 and product.variants.size == 1 %}
+		{% if product.variants.first.available %}
+		<a href="{{ product.url}}" class="product_quick_add button">Thêm vào giỏ</a>
+		{% else %}
+		<a class="add-to-cart disabled button"> Hết hàng</a>
+		{% endif %}
+		{% else %}
+		<a href='{{ product.url }}' class='add-to-cart button' > Lựa chọn</a>
+		{% endif %}
+
+		<a href="#product-pop-up" data-btn='quickview' class="button hidden-sm hidden-xs" product_url="{{ product.url }}">Xem nhanh</a>
+	</div>
+<!-- end product_overlay_style1 -->

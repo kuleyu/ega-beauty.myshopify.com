@@ -1,0 +1,12 @@
+<div class="widget clearfix">
+  <div class="widget_title">
+    <h3>{{ 'blogs.sidebar.categories' | t }}</h3>
+  </div>
+  <div class="widget_content">
+    <ul class="">
+      {% for link in linklists[settings.blog_sidebar_category].links %}
+      <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>

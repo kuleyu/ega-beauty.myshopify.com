@@ -1,0 +1,54 @@
+<div class="container clearfix">
+  aaa {{ article.updated_at }}
+  {% include 'page_title' %}
+  <div class='line'></div>
+
+  <div class='row'>
+    <div id='article' class='main_content blog_list col-xs-12 col-sm-8'>
+      <p class='article_meta'>        
+        <span class='published_date'>{{ article.published_at | date: "%B %d, %Y"}}</span>
+        <span class='author'>{{ 'blogs.article.author_on_date' | t }} <a href='{{ article.url }}'>{{ article.author }}</a></span>
+        <span>{{ number_of_comments }} comment(s)</span>
+      </p>
+      <div class='article_content'>
+        {{ article.content }}
+      </div>
+
+      {% if settings.use_article_tags and article.tags.size > 0 %}
+      {% include 'article_tags' %}
+      {% endif %}
+
+      {% if settings.use_article_sharing %}
+      {% include 'article_sharing' %}
+      {% endif %}
+
+      {% if blog.next_article or blog.previous_article %}
+      <p class="clearfix margin_top_15 article_pagination">
+        {% if blog.previous_article %}
+        <a class='pull-left' href='{{ blog.previous_article }}'>
+          <i class="margin_right_10 fa fa-long-arrow-left"></i>
+          {{ 'blogs.article.older_post' | t }}
+        </a>
+        {% endif %}
+        {% if blog.next_article %}
+        <a class='pull-right' href='{{ blog.next_article }}'>
+          {{ 'blogs.article.newer_post' | t }}
+          <i class="margin_right_10 fa fa-long-arrow-right"></i>
+        </a>
+        {% endif %}
+      </p>
+      {% endif %}
+
+      {% if blog.comments_enabled? %}
+      {% include 'article_comments' %}
+      {% endif %}
+    </div>
+    <div class='sidebar col-xs-12 col-sm-4'>
+      {% include 'blog_sidebar' %}
+    </div>
+  </div>
+
+  {% if settings.use_article_related_articles %}
+  {% include 'article_related_articles' %}
+  {% endif %}
+</div>

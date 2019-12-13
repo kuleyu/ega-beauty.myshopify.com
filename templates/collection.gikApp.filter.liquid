@@ -1,0 +1,62 @@
+{% layout none %}
+ 
+
+{% capture collection_price %}
+		{
+         		"title": "{{ settings.price_filter_title }}"
+		},
+    	{% assign tags = settings.price_filter_array | split: ',' %}
+
+		{ "values": [
+          {% for tag in tags %}
+          {% if collection.all_tags contains tag %}
+              {
+                  "price": "{{ tag | handle }}"
+              }
+          {% unless forloop.last %},{% endunless %}
+          {% endif %}
+          {% endfor %}
+
+
+          ]
+      	}
+{% endcapture %}
+
+{% capture collection_tags %}
+	{% for i in (1..4) %}
+      {% capture tag_custom_filter_title %}tag_custom_filter_title_{{i}}{% endcapture %}
+      {% capture tag_custom_filter_array %}tag_custom_filter_array_{{i}}{% endcapture %}
+
+      {% assign tags = settings[tag_custom_filter_array] | split: ',' %}
+   
+        {% for tag in tags %}
+
+        {% if collection.all_tags contains tag %}
+          {
+			"tag": "{{ tag | handle }}"
+		  }
+		{% unless forloop.last %},{% endunless %}
+        {% endif %}
+        {% endfor %}
+     {% endfor %}
+{% endcapture %}
+ 
+{% for product_vendor in collections.brushes.all_vendors %}
+
+      {{ product_vendor | link_to_vendor }}
+
+  	{% endfor %}
+
+{% capture collection_vendors %}
+
+  
+
+{% endcapture %}
+
+
+{
+  "collection": {
+		"prices" : [{{collection_price}}],
+		"tags" : [{{collection_tags}}]
+	}
+}

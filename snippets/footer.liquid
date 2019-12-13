@@ -1,0 +1,20 @@
+{% if settings.use_footer_banner %}
+{% include 'footer_banner' %}
+{% endif %}
+
+<footer id="footer" class=''>
+  {% if settings.use_footer_subcribe %}
+  {% include 'footer_subcribe' %}
+  {% endif %}
+  
+  {% if settings.use_prefooter %}
+  {% include 'prefooter' %}
+  {% endif %}
+  
+  {% if settings.use_copyright %}
+  <!-- Copyrights
+============================================= -->
+  {% include 'copyrights' %}
+  <!-- #copyrights end -->
+  {% endif %}
+</footer>

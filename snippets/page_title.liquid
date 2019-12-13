@@ -1,0 +1,86 @@
+{% assign products_count = collection.products_count %}
+<div class='page_title'>
+
+  {% comment %} Template == 'Product' {% endcomment %}
+  {% if template contains 'product' %}
+  {% assign current_variant = product.selected_or_first_available_variant %}
+  {% assign featured_image = current_variant.featured_image | default: product.featured_image %}
+  <div class='row'>
+    <div class='col-xs-12 col-sm-6'>
+      <h1>{{ product.title }}</h1>
+    </div>
+    <div class='col-xs-12 col-sm-6'>
+      <div class='product_price'>
+        {% if product.compare_at_price_max > product.price %}
+        <del>{{ current_variant.compare_at_price | money }}</del>
+        {% endif %}
+        <ins>{{ current_variant.price | money }} </ins>
+      </div>
+    </div>
+  </div>
+
+  {% comment %} Template == 'Collection' {% endcomment %}
+  {% elsif template contains 'collection' and collection.handle %}
+  <h1>
+    {{ collection.title }}
+    <small class='text-lowercase'>
+      ({% if products_count > 1 %}
+      {{ 'collections.general.items_with_count.other' | t: count: products_count }}
+      {% else %}
+      {{ 'collections.general.items_with_count.one' | t: count: products_count }}
+      {% endif %})</small>
+  </h1>
+
+  {% comment %} Template == 'Search' {% endcomment %}
+  {% elsif template contains 'search' %}
+  <h1>{{ 'general.search.title' | t }}</h1>
+  
+{% comment %} Template == 'Cart' {% endcomment %}
+  {% elsif template contains 'cart' %}
+  <h1>{{ 'cart.general.title' | t }}</h1>
+  
+  {% comment %} Template == 'Blog' {% endcomment %}
+  {% elsif template == 'blog' %}
+  <h1>{{ blog.title }}</h1>
+
+  {% comment %} Template == 'Article' {% endcomment %}
+  {% elsif template == 'article' %}
+  <h1>{{ article.title }}</h1>
+  
+  {% comment %} Template == 'Login' {% endcomment %}
+  {% elsif template == 'customers/login' %}
+  <h1>{{ 'customer.login.title' | t | upcase }}</h1>
+
+  {% comment %} Template == 'Register' {% endcomment %}
+  {% elsif template == 'customers/register' %}
+  <h1>{{ 'customer.register.title' | t | upcase }}</h1>
+  
+  {% comment %} Template == 'Reset Password' {% endcomment %}
+  {% elsif template == 'customers/reset_password' %}
+  <h1>{{ 'customer.reset_password.title' | t | upcase }}</h1>
+  
+  {% comment %} Template == 'Active Account' {% endcomment %}
+  {% elsif template == 'customers/activate_account' %}
+  <h1>{{ 'customer.activate_account.title' | t | upcase }}</h1>
+  
+  {% comment %} Template == 'Account Detail' {% endcomment %}
+  {% elsif template == 'customers/account' %}
+  <h1>{{ 'customer.account.title' | t | upcase }}</h1>
+  
+  {% comment %} Template == 'Order Detail' {% endcomment %}
+  {% elsif template == 'customers/order' %}
+  <h1>{{ 'customer.account.title' | t | upcase }}</h1>
+  
+  {% comment %} Template == 'Page' {% endcomment %}
+  {% elsif template contains 'page' %}
+  <h1>{{ page.title }}</h1>
+  
+  {% comment %} Template == '404' {% endcomment %}
+  {% elsif template == '404' %}
+  <h1>{{ 'general.404.title' | t | upcase }}</h1>
+  
+  {% else %}
+  <h1>{{ page_title }}</h1>
+
+  {% endif %}
+</div>

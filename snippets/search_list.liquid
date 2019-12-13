@@ -1,0 +1,9 @@
+<div class='list_layout'>
+  <div class='row'>
+    {% for product in search.results limit: pagination_limit %}
+    <div class='col-xs-12 product_item style_1'>
+      {% include 'product_list_item' with {img_url: img_size} %}
+    </div>
+    {% endfor %}
+  </div>
+</div>

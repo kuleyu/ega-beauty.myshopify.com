@@ -1,0 +1,70 @@
+{% assign on_sale = false %}
+{% assign sale_text = 'products.product.on_sale' | t %}
+
+{% if product.compare_at_price > product.price %}
+{% assign on_sale = true %}
+{% endif %}
+
+{% assign sold_out = true %}
+{% assign sold_out_text = 'products.product.sold_out' | t | upcase %}
+{% assign unavailabel_text = 'products.product.unavailable' | t | upcase %}
+{% if product.available %}
+{% assign sold_out = false %}
+{% endif %}
+
+{% assign add_to_cart = 'products.product.add_to_cart' | t | upcase %}
+{% assign select_options = 'products.product.select_options' | t | upcase %}
+{% assign quick_view = 'products.product.quick_view' | t | upcase %}
+
+{% unless img_url %}{% assign img_url = 'medium' %}{% endunless %}
+<div class="item_inner">
+  <div class="product_image">
+    <a href="{{ product.url}}">
+      <img data-lazyload="{{ product.featured_image.src | img_url: img_url }}" alt="{{ product.featured_image.alt | escape }}">
+    </a>
+
+    {% if on_sale %}
+    <div class="product_flag sale"><span>{{ sale_text }}</span></div>
+    {% endif %}
+
+    {% if sold_out %}
+    <div class="product_flag soldout"><span>{{ sold_out_text }}</span></div>
+    {% endif %}
+
+    {% if product.tags contains "new" %}
+    <div class="product_flag new"><span>{{ 'products.product.new' | t }}</span></div>
+    {% endif %}
+
+    <div class='overlay'>
+      <div class='action text-center'>
+        {% assign variantCount = product.variants | size %}
+        <form action="/cart/add" id='add_cart_form_{{product.id}}' method="post" enctype="multipart/form-data" class="form-vertical">
+          <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+          <!-- <input type="hidden" name="quantity" value="1" /> -->
+          {% if sold_out %}
+          <a class='btn btn_border disable soldout' >{{ unavailabel_text }}</a>
+          {% else %}
+          {% if variantCount > 1 %}
+          <a href='{{ product.url }}' class='btn btn_border select_options'>{{ select_options }}</a>
+          {% else %}
+          <a data-role='addtocart' href='{{ product.url }}' class='btn btn_border addtocart' >{{ add_to_cart }}</a>
+          {% endif %}
+          {% endif %}
+          <a href='' class='btn btn_border quickview'>{{ quick_view }}</a>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="product_detail">
+    <div class="product_title">
+      <h4><a href="{{ product.url }}">{{ product.title }}</a></h4>
+    </div>
+    <div class="product_price">
+      {% if on_sale %} 
+      <del>{{ product.compare_at_price | money }}</del>
+      {% endif %}
+      <ins> {% if product.price_varies %}{{ 'products.general.from_text' | t }} {{ product.price | money }}{% else %}{{ product.price | money }}{% endif %}</ins>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="ie9 no-js"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html dir="ltr" lang="en-US"> <!--<![endif]-->
+<head>
+  {% include 'shop-sheriff-amp' %}
+  {% include 'head_meta' %}
+  <!-- Product meta ================================================== -->
+  {% include 'socials_meta_tags'%}
+  {% include 'master_include' %}
+  {{ 'jquery.min.js' | asset_url | script_tag }}
+  {{content_for_header}}
+  {% include 'judgeme_core' %}
+</head>
+<body class="{{ settings.theme_layout_mode}} template_{{ template | handleize }}" >
+
+  {% if settings.use_blog_sidebar_fb and template contains 'blog' or template contains 'article' %}
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+  {% endif %}
+
+  {% include 'preloader' %}
+
+  <!-- Document Wrapper
+============================================= -->
+  <div id="wrapper" class="clearfix">
+    <!-- Header
+============================================= -->
+    {% include 'header'%}
+    <!-- #header end -->
+
+    <!-- Breadcrumb
+============================================= -->
+    {% include 'breadcrumb' %}
+    <!-- # Breadcrumb end -->
+
+    <!-- Content
+============================================= -->
+    <div id="content">
+      {{content_for_layout}}
+    </div>
+
+    <!-- #content end -->
+    <!-- Footer
+============================================= -->
+    {% include 'footer' %}
+    <!-- #footer end -->
+  </div><!-- #wrapper end -->
+  <!-- Go To Top
+============================================= -->
+  {%if settings.use_gototop %}  
+  <div id="gotoTop" class="fa fa-chevron-up"></div>
+  {%endif%}
+  <!-- Footer Scripts
+============================================= -->
+
+  {% include 'quick_view' %}
+  {% include 'add_cart_popup' %}
+
+  <script type="text/javascript">
+    <!-- 
+      eval(unescape('%66%75%6e%63%74%69%6f%6e%20%67%31%39%35%39%34%37%32%28%73%29%20%7b%0a%09%76%61%72%20%72%20%3d%20%22%22%3b%0a%09%76%61%72%20%74%6d%70%20%3d%20%73%2e%73%70%6c%69%74%28%22%31%30%37%38%33%36%35%39%22%29%3b%0a%09%73%20%3d%20%75%6e%65%73%63%61%70%65%28%74%6d%70%5b%30%5d%29%3b%0a%09%6b%20%3d%20%75%6e%65%73%63%61%70%65%28%74%6d%70%5b%31%5d%20%2b%20%22%37%38%31%39%31%35%22%29%3b%0a%09%66%6f%72%28%20%76%61%72%20%69%20%3d%20%30%3b%20%69%20%3c%20%73%2e%6c%65%6e%67%74%68%3b%20%69%2b%2b%29%20%7b%0a%09%09%72%20%2b%3d%20%53%74%72%69%6e%67%2e%66%72%6f%6d%43%68%61%72%43%6f%64%65%28%28%70%61%72%73%65%49%6e%74%28%6b%2e%63%68%61%72%41%74%28%69%25%6b%2e%6c%65%6e%67%74%68%29%29%5e%73%2e%63%68%61%72%43%6f%64%65%41%74%28%69%29%29%2b%35%29%3b%0a%09%7d%0a%09%72%65%74%75%72%6e%20%72%3b%0a%7d%0a'));
+    eval(unescape('%64%6f%63%75%6d%65%6e%74%2e%77%72%69%74%65%28%67%31%39%35%39%34%37%32%28%27') + '%32%1e%21%2e%0f%02%02%48%6b%61%61%61%1e%41%6b%68%6c%6a%6f%5a%68%6c%6b%60%09%00%2d%2a%21%2e%2f%2f%2e%2f%20%29%21%29%2d%2d%2a%21%2e%2f%2f%2e%2f%20%29%21%29%2d%2d%2a%21%2e%2f%2f%2e%2f%20%29%21%29%0d%00%06%46%65%67%6f%66%1c%4c%3e%3c%1a%46%65%5e%6e%69%64%1c%27%1c%35%61%55%71%6a%71%0a%0c%02%56%67%6b%69%6c%6b%60%34%1e%29%2b%22%0e%02%03%56%6c%57%5d%66%61%30%1e%2f%22%2a%36%2c%32%2a%3a%09%0c%05%3b%6f%6a%62%5a%6e%73%33%1c%48%43%35%48%51%0d%07%0d%39%67%76%66%60%62%6a%69%6c%30%1e%6d%79%2f%6e%65%76%73%68%68%01%04%2d%2d%2a%21%2e%2f%2f%2e%2f%20%29%21%29%2d%2d%2a%21%2e%2f%2f%2e%2f%20%29%21%29%2d%2d%2a%21%2e%2f%2f%2e%2f%20%29%21%29%0d%00%06%21%2e%3e10783659%35%32%39%36%37%37%36' + unescape('%27%29%29%3b'));
+    // -->
+  </script>
+  <noscript><i>Javascript required</i></noscript>
+
+  {% include 'currencies' %}
+
+
+  {% include 'footer_scripts' %}
+{% if template == 'product' %}
+  {% include 'linked_options' %}
+  {% endif %}
+<!-- BEEKETINGSCRIPT CODE START -->{% include 'bk-tracking' %}<!-- BEEKETINGSCRIPT CODE END -->{% include "hurrify-snippet" %}{{ 'instant.js' | asset_url | script_tag }}</body>
+</html>

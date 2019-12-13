@@ -1,0 +1,7 @@
+<div id='top_search' class='style_1'>
+  <form action="/search" method="get" class="" role="search">
+    <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search.placeholder' | t }}" class="nobg noborder" aria-label="{{ 'general.search.placeholder' | t }}" autocomplete="off">
+    <!-- <button type='submit' class='btn nobg noborder nopadding'>{{ 'general.search.submit' | t }}</button> -->
+  </form>
+  <a href='#' id='top_search_trigger' class=''>{{ 'general.search.submit' | t }}</a>
+</div>

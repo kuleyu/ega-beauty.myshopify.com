@@ -1,0 +1,70 @@
+{% layout none %}
+<style>
+  #gikApp_artilce_content {
+    padding: 0 2%
+  }
+    
+  .rte {
+    color: #788188;
+    margin-bottom: 35px;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    border: 0;
+  }
+  .section-header {
+    margin-bottom: 35px;
+  }
+  .text-center {
+    text-align: center !important;
+  }
+  h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+    margin: 0 0 17.5px;
+    font-family: "Work Sans","HelveticaNeue","Helvetica Neue",sans-serif;
+    font-weight: 600;
+    line-height: 1.2;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+  .article__author {
+    margin-right: 10px;
+  }
+  p {
+    color: #788188;
+    font-size: 0.9375em;
+    line-height: 1.5;
+    font-family: "Work Sans","HelveticaNeue","Helvetica Neue",sans-serif;
+  }
+  blockquote {
+    font-size: 1.125em;
+    font-style: normal;
+    text-align: center;
+    padding: 0 30px;
+    margin: 0;
+    border-color: #e8e9eb;
+    border-width: 1px 0;
+    border-style: solid;
+    padding: 30px 0;
+    margin-bottom: 27.5px;
+  }
+</style>
+<div id = "gikApp_artilce_content">
+  <article>
+    <div>
+      <div class="section-header text-center">
+        <h1 class="article__title">{{ article.title }}</h1>
+        <span class="article__author">{{ 'blogs.article.by_author' | t: author: article.author }}</span>
+        <span class="article__date">
+          {{ article.published_at | time_tag: format: 'month_day_year' }}
+        </span>
+      </div>
+
+      <div class="rte" itemprop="articleBody">
+        {{ article.content }} 
+      </div>
+    </div>
+  </article>
+
+</div>

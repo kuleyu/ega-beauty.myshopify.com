@@ -1,0 +1,17 @@
+<div class="item_inner">
+  <div class='article_image'>
+    <a href='{{ article.url }}' title='{{ article.title }}'>
+      <img data-lazyload="{{ article.image.src | img_url: article_size }}" alt='{{ article.title }}'>
+    </a>
+    <div class='article_title'>
+      <h4><a href='{{ article.url }}'>{{ article.title }}</a></h4>
+      <p class='article_meta'>        
+        <span class='published_date'>{{ article.published_at | date: "%B %d, %Y"}}</span>
+        <span class='author'>{{ 'blogs.article.author_on_date' | t }} <a href='{{ article.url }}'>{{ article.author }}</a></span>
+      </p>
+    </div>
+  </div>
+  <div class='short_desc'>
+    {{ article.excerpt }}
+  </div>
+</div>

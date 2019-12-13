@@ -1,0 +1,102 @@
+{% comment %}
+Just like blog.liquid page, define how many comments should be on each page.
+{% endcomment %}
+
+{% comment %}
+#comments is required, it is used as an anchor link by Shopify.
+{% endcomment %}
+<div class='line'></div>
+<div id="comments">
+  {% assign number_of_comments = article.comments_count %}
+
+  {% if comment and comment.created_at %}
+  {% assign number_of_comments = article.comments_count | plus: 1 %}
+  {% endif %}
+
+  {% paginate article.comments by 5 %}
+
+  {% endpaginate %}
+
+  {% if comment and comment.created_at %}
+  <p class="alert alert-success">
+    {% if blog.moderated? %}
+    {{ 'blogs.comments.success_moderated' | t }}
+    {% else %}
+    {{ 'blogs.comments.success' | t }}
+    {% endif %}
+  </p>
+  {% endif %}
+
+  {% if number_of_comments > 0 %}
+  <ul class='nostyled noleftpadding'>
+    {% comment %}
+    If a comment was just submitted with no blank field, show it.
+    {% endcomment %}
+    {% if comment and comment.created_at %}
+    <li id="{{ comment.id }}" class="comment first{% if article.comments_count == 0 %} last{% endif %}">
+      {% include 'comment' %}
+    </li>
+    {% endif %}
+
+    {% comment %}
+    Showing the rest of the comments.
+    {% endcomment %}
+    {% for comment in article.comments %}
+    <li id="{{ comment.id }}" class="comment{% unless number_of_comments > article.comments_count %}{% if forloop.first %} first{% endif %}{% endunless %}{% if forloop.last %} last {% endif %}">
+      {% include 'comment' %}
+    </li>
+    {% endfor %}
+  </ul>
+
+  {% if paginate.pages > 1 %}
+  <div class="text-center">
+    {% include 'pagination-custom' %}
+  </div>
+  {% endif %}
+
+  {% endif %}
+
+  {% comment %}
+  Comment submission form
+  {% endcomment %}
+  {% form 'new_comment', article %}
+
+  <h3 class='h4 text-uppercase'>{{ 'blogs.comments.title' | t }}</h3>
+
+  {{ form.errors | default_errors }}
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 {% if form.errors contains "author" %} has-error{% endif %}">
+      <div class='form-group'>
+        <label for="CommentAuthor" class="control-label">{{ 'blogs.comments.name' | t }}</label>
+
+        <input id='CommentAuthor' class="form-control" type="text" name="comment[author]" value="{{ form.author }}" >
+      </div>
+    </div>
+
+    <div class='col-xs-12 col-sm-6{% if form.errors contains "email" %} has-error{% endif %}'>
+      <div class='form-group'>
+        <label for="CommentEmail" class="control-label">{{ 'blogs.comments.email' | t }}</label>
+
+        <input class='form-control' type="email" name="comment[email]" id="CommentEmail" value="{{ form.email }}">
+      </div>
+    </div>
+
+    <div class="col-xs-12">
+      <div class='form-group'>
+        <label for="CommentBody" class="control-label">{{ 'blogs.comments.message' | t }}</label>
+        <textarea rows='5' class='form-control{% if form.errors contains "body" %} error{% endif %}' name="comment[body]" id="CommentBody" >{{ form.body }}</textarea>
+      </div>
+    </div>
+
+  </div>
+
+  {% if blog.moderated? %}
+  <p class='margin_bottom_10'>{{ 'blogs.comments.moderated' | t }}</p>
+  {% endif %}
+
+  <input type="submit" class="btn" value="{{ 'blogs.comments.post' | t | upcase }}">
+
+  {% endform %}
+
+</div>

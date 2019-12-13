@@ -1,0 +1,207 @@
+{% assign on_sale = false %}
+{% assign sale_text = 'products.product.on_sale' | t | upcase %}
+
+{% if product.compare_at_price > product.price %}
+{% assign on_sale = true %}
+{% endif %}
+
+<div class='container'>
+  <div id='product_single'>
+    {% include 'page_title' %}
+    <div class='line'></div>
+    <div class='row'>
+      {% if settings.use_product_sidebar %}
+      <div class='sidebar col-xs-12 col-md-3 {{ settings.product_sidebar_position }}'>
+        {% include 'collection_sidebar'%}
+      </div>
+      {% endif %}
+      <div class='col-xs-12{% if settings.use_product_sidebar %} col-md-9{% endif %}'>
+        <div class='row'>
+          <div class='col-xs-12 col-sm-6 product_image_wrap text-center'>
+            {% include 'product_slideshow' %}
+
+            {% if on_sale %}
+            <div class="product_flag sale"><span>{{ sale_text }}</span></div>
+            {% endif %}
+          </div>
+
+          <div class='col-xs-12 col-sm-6 product_content'>
+
+            {% if settings.use_product_reviews %}
+            <!-- product review -->
+            <div class='product_review'>
+              <i class='fa fa-star'></i>
+              <i class='fa fa-star'></i>
+              <i class='fa fa-star'></i>
+              <i class='fa fa-star-half-o'></i>
+              <i class='fa fa-star-o'></i>
+              <span class='product_review_caption'>No review</span>
+            </div>
+            <!-- end product review -->
+            {% endif %}
+
+            {% if settings.use_product_vendor or settings.use_product_type %}
+            <!-- product infor -->
+            <div class='product_info'>
+              {% include 'judgeme_widgets', widget_type: 'judgeme_preview_badge', jm_style: '', concierge_install: true %}
+              {% if settings.use_product_vendor %}
+              <p><strong>{{ 'products.product.brand' | t }}: </strong><span>{{ product.vendor }}</span></p>
+              {% endif %}
+
+              {% if settings.use_product_type %}
+              <p><strong>{{ 'products.product.type' | t }}: </strong><span>{{ product.type }}</span></p>
+              {% endif %}
+            </div>
+            <!-- end product infor -->
+            {% endif %}
+
+            {% if settings.use_product_short_decs %}
+            <!-- product short description -->
+            <div class='product_shortdesc'>
+              {% assign product_short_desc_number = settings.product_short_desc_number %}
+              {{ product.description | strip_html | truncate: product_short_desc_number }}
+              <!-- <a class='readmore' href='#' onclick='EGA.function.scrollToElement($(".product_tabs"))'>{{ 'general.general.read_more' | t }}</a> -->
+              <a class='readmore' href='#product_tabs'>{{ 'general.general.read_more' | t }}</a>
+              <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                  var headerHeight = $('#header_wrap').height();
+                  $('#product_single .readmore').on('click', function(e) {
+                    e.preventDefault();
+                    var des = $(this).attr('href');
+                    EGA.function.scrollToElement(des, headerHeight)
+                  });
+                })
+              </script>
+            </div>
+            <!-- end product short description -->
+            {% endif %}
+          {% include 'judgeme_widgets', widget_type: 'judgeme_review_widget', concierge_install: true %}
+            <!-- product form -->
+            <div class='product_form_detail'>
+              <form action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm">
+
+                <select name="id" id="productSelect" class="hidden">
+                  {% for variant in product.variants %}
+                  <option {% unless variant.available %} disabled="disabled" {% endunless %} 
+                          {% if variant == current_variant %} selected="selected" {% endif %} 
+                          data-sku="{{ variant.sku }}" 
+                          value="{{ variant.id }}">
+                    {{ variant.title }} - {% if variant.available %}{{ variant.price | money_with_currency }}{% else %}{{ 'products.product.sold_out' | t }}{% endif %}
+                  </option>
+                  {% endfor %}
+                </select>
+
+                {% if settings.use_product_swatch %}
+                {% if product.available and product.variants.size > 1 %}
+                {% for option in product.options %}
+                {% include 'swatch' with option %}
+                {% endfor %}
+                {% endif %}
+                {% endif %}
+
+                <div data-role='quantity' class="product_quantity style_1">
+                  <button data-role='minus' type='button' class='btn minus'></button>
+                  <div class='quantity_input_wrap'>
+                    <input data-role='qty' type="text" id="" name="quantity" value="1" min="1" class="quantity_input">
+                  </div>
+                  <button data-role='plus' type='button' class='btn plus'></button>
+                </div>
+
+                <a data-role='addtocart' href="#" id="" class="btn addtocart btn_border addtocart_detail">
+                  {{ 'products.product.add_to_cart' | t }}
+                </a>
+                <button data-role=buynow type='submit' class='btn btn_dark buynow buynow_detail'>
+                  {{ 'products.product.buy_now' | t }}
+                </button>
+              </form>
+              
+            </div>
+            <!-- end product form -->
+
+            {% if settings.use_product_sharing %}
+            {% include 'product_sharing' %}
+            {% endif %}
+
+            {% if settings.use_product_tags and product.tags.size > 0 %}
+            <div class='clear margin_bottom_10'></div>
+            {% include 'product_tags' %}
+            {% endif %}
+          </div>
+
+          {% if settings.use_product_tabs %}
+          <div class='clear margin_bottom_30'></div>
+          {% include 'product_tabs' %}
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% include 'product_related_products' %}
+</div>
+<script>
+  var selectCallback = function(variant, selector) {
+    EGA.product.productPage({
+      variant: variant,
+      translations: {
+        addToCart : "{{ 'products.product.add_to_cart' | t }}",
+        soldOut : "{{ 'products.product.sold_out' | t }}",
+        unavailable : "{{ 'products.product.unavailable' | t }}",
+        },
+      productTag: {
+        addToCart: $('#AddToCartForm [data-role=addtocart]'),
+        buyNow: $('#AddToCartForm [data-role=buynow]'),
+        productSlideThumb: $('#product_image_slide_thumb img'),
+        price: $('#product_single .product_price ins'),
+        comparePrice: $('#product_single .product_price del'),
+        quantity: $('#AddToCartForm .product_quantity'),
+        sale: $('.product_image_wrap .product_flag')
+      }
+    });
+
+    // BEGIN SWATCHES
+    if (variant) {
+      var form = jQuery('#' + selector.domIdPrefix).closest('form');
+      for (var i=0,length=variant.options.length; i<length; i++) {
+        var radioButton = form.find('.swatch[data-option-index="' + i + '"] :radio[value="' + variant.options[i] +'"]');
+        if (radioButton.size()) {
+          radioButton.get(0).checked = true;
+        }
+      }
+    }
+    // END SWATCHES
+  };
+
+  document.addEventListener('DOMContentLoaded', function() {
+    new EGA.platform.OptionSelectors('productSelect', {
+      product: {{ product | json }},
+      onVariantSelected: selectCallback,
+      enableHistoryState: true
+    });
+
+    // Add label if only one product option and it isn't 'Title'. Could be 'Size'.
+    {% if product.options.size == 1 and product.options.first != 'Title' %}
+    $('.selector-wrapper:eq(0)')
+    .prepend('<label for="productSelect-option-0">{{ product.options.first | escape }}</label>');
+             {% endif %}
+
+             // Hide selectors if we only have 1 variant and its title contains 'Default'.
+             {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
+             $('.selector-wrapper').hide();
+    {% endif %}
+
+    // Swatch Change
+    jQuery('.swatch :radio').change(function() {
+      var optionIndex = jQuery(this).closest('.swatch').attr('data-option-index');
+      var optionValue = jQuery(this).val();
+      jQuery(this)
+      .closest('form')
+      .find('.single-option-selector')
+      .eq(optionIndex)
+      .val(optionValue)
+      .trigger('change');
+    });
+  });
+
+</script>{% include 'salesbox-common' %}

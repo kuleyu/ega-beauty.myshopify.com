@@ -1,0 +1,49 @@
+<div class='view_mode'>
+  {% assign view_mode = '' %}
+  {% if template == 'collection' or template == 'search' %}
+      {% if settings.collection_viewmode == 'grid_2' %}
+       {% assign view_mode = 'grid_2' %}
+    
+      {% elsif settings.collection_viewmode == 'grid_3' %}
+       {% assign view_mode = 'grid_3' %}
+     
+      {% elsif settings.collection_viewmode == 'grid_4' %}
+       {% assign view_mode = 'grid_4' %}
+  
+  	  {% elsif settings.collection_viewmode == 'list' %}
+        {% assign view_mode = 'list' %}
+  
+      {% endif %}     
+    
+    {% comment %}alternate template{% endcomment %}
+    {% else %}
+      {% if template contains 'grid_2' %}
+	   {% assign view_mode = 'grid_2' %}
+
+	  {% elsif template contains 'grid_3' %}
+	   {% assign view_mode = 'grid_3' %}
+
+	  {% elsif template contains 'grid_4' %}
+	   {% assign view_mode = 'grid_4' %}
+    
+      {% elsif template contains 'list'  %}
+       {% assign view_mode = 'list' %}
+    
+    {% endif %}
+    {% endif %}
+  
+  <ul>
+    <li class=''>
+      <a title='Grid view (2 collumns)' class='grid_mode col_2{% if view_mode == 'grid_2' %} active{% endif %}' href='grid_2'></a>
+    </li>
+    <li class='hidden-xs hidden-sm'>
+      <a title='Grid view (3 collumns)' class='grid_mode col_3{% if view_mode == 'grid_3' %} active{% endif %}' href='grid_3'></a>
+    </li>
+    <li class='hidden-xs hidden-sm'>
+      <a title='Grid view (4 collumns)' class='grid_mode col_4{% if view_mode == 'grid_4' %} active{% endif %}' href='grid_4'></a>
+    </li>
+    <li>
+      <a title='List view' class='list_mode{% if view_mode == 'list' %} active{% endif %}' href='list'></a>
+    </li>
+  </ul>
+</div>

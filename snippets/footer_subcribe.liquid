@@ -1,0 +1,24 @@
+{% comment %}
+MailChimp is the go-to newsletter service for Shopify.
+Use the link below to find your MailChimp form action
+and insert it in your site settings.
+
+If the form action URL is not set in the theme settings,
+it will fallback to a customer form so you can still capture the email.
+
+MailChimp newsletter integration and requirement:
+- http://docs.shopify.com/support/configuration/store-customization/where-do-i-get-my-mailchimp-form-action
+{% endcomment %}
+<div class='footer_subcribe'>
+  <div class='container'>
+    {% if settings.use_subcribe_3 %}
+    <div class='row'>
+      <div class='col-xs-12 col-md-6 col-md-push-3'>
+        <h3 class=''>{{ 'general.newsletter_form.caption' | t }}</h3>
+        <p class=''>{{ 'general.newsletter_form.content' | t }}</p>
+        {%include 'block_subscribe_form' %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>

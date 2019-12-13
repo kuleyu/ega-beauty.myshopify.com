@@ -1,0 +1,62 @@
+{% assign img_url = settings.collection_product_imgsize %}
+
+{% assign number_of_products = 5 %}
+{% assign number_of_products_to_fetch = number_of_products | plus: 1 %}
+
+{% if collection == null or collection.handle == 'frontpage' or collection.handle == 'all' %}
+{% assign found_a_collection = false %}
+{% for c in product.collections %}
+{% if found_a_collection == false and c.handle != 'frontpage' and c.handle != 'all' and c.all_products_count > 1 %}
+{% assign found_a_collection = true %}
+{% assign collection = c %}
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if collection and collection.products_count > 1 %}
+<!-- Has Products -->
+<div class='related_products'>
+  <div class='title_border top style_1'>
+    <h3>{{ settings.related_product_title }}</h3>
+  </div>
+
+  <div class='grid_layout'>
+    {% assign current_product = product %}
+    {% assign current_product_found = false %}
+
+    {% for product in collection.products limit: number_of_products_to_fetch %}
+
+    {% if product.handle == current_product.handle %}
+    {% assign current_product_found = true %}
+    {% else %}
+
+    {% unless current_product_found == false and forloop.last %}
+    <div class='padding_left_15 padding_right_15'>
+      <div class='product_item style_1'>
+        {% include 'product_grid_item' %}
+      </div>
+    </div>
+
+    {% endunless %}
+    {% endif %}
+    {% endfor %}
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    $('.related_products .grid_layout').slick({
+      slidesToShow: 4,
+      prevArrow: '<button type="button" class="slick-prev small_nav"><i class="fa fa-angle-left"></i></button>',
+      nextArrow: '<button type="button" class="slick-next small_nav"><i class="fa fa-angle-right"></i></button>',
+      responsive: [
+        {
+          breakpoint: 991,
+          settings: {
+            slidesToShow: 3,
+          }
+        }
+      ]
+    });
+  });
+</script>
+{% endif %}

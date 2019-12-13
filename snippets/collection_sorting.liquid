@@ -1,0 +1,37 @@
+<div class='sort_group btn-group dropdown'>
+  <!--
+<label>{{ 'collections.sorting.title' | t }}</label>
+-->
+  <button class="btn dropdown-toggle" data-toggle="dropdown">
+    <label>{{ 'collections.sorting.title' | t }}</label>
+    <span>{{ 'collections.sorting.featured' | t }}</span>
+    <i class="fa fa-angle-down"></i>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    <li><a href="manual">{{ 'collections.sorting.featured' | t }}</a></li>
+    <li><a href="best-selling">{{ 'collections.sorting.best_selling' | t }}</a></li>
+    <li><a href="title-ascending">{{ 'collections.sorting.az' | t }}</a></li>
+    <li><a href="title-descending">{{ 'collections.sorting.za' | t }}</a></li>
+    <li><a href="price-ascending">{{ 'collections.sorting.price_ascending' | t }}</a></li>
+    <li><a href="price-descending">{{ 'collections.sorting.price_descending' | t }}</a></li>
+    <li><a href="created-descending">{{ 'collections.sorting.date_descending' | t }}</a></li>
+    <li><a href="created-ascending">{{ 'collections.sorting.date_ascending' | t }}</a></li>
+  </ul>
+</div>
+
+<script>
+  /*============================================================================
+    Inline JS because collection liquid object is only available
+    on collection pages, and not external JS files
+  ==============================================================================*/
+
+  document.addEventListener('DOMContentLoaded', function(e) {
+  $.each($('.sort_group .dropdown-menu a'), function() {
+    if($(this).attr('href') == '{{ collection.sort_by | default: collection.default_sort_by }}') {
+      	$(this).parent().addClass('active');
+    	var sort_title = $(this).text();
+    	$('.sort_group button span').text(sort_title);
+    }
+  })
+});
+</script>

@@ -1,0 +1,23 @@
+{% assign sidebar_product_imgsize = settings.sidebar_product_imgsize %}
+<div class="sidebar_widgets_wrap">
+  {% if settings.use_sidebar_category %}
+  <!-- categories -->
+  {% include 'collection_sidebar_category'%}
+  <!-- end categories -->
+  {% endif %}
+
+  {% if template contains 'collection' %}
+  {% if settings.use_filter %}
+  <!-- begin: filters -->
+  {%include 'collection_filter' %}
+  <!-- end: filters -->
+  {% endif %}
+  {% endif %}
+
+  {% if settings.use_sidebar_collection_1 %}
+  <!-- sidebar collection 1 -->
+  {% include 'collection_sidebar_collection_1' %}
+  <!-- end sidebar collection 1 -->
+  {% endif %}
+
+</div>

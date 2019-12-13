@@ -1,0 +1,11 @@
+<div class="widget clearfix">
+  {% assign sidebar_collection_1 = collections[settings.sidebar_collection_1] %}
+  <div class='widget_title'>
+    <h3><a href='{{sidebar_collection_1.url}}'>{{ settings.sidebar_collection_title_1 }}</a></h3>
+  </div>
+  <div class='widget_content'>
+    {% for product in sidebar_collection_1.products limit: settings.sidebar_collection_limit_1 %}
+    {% include 'product_widget_item' %}
+    {% endfor %}
+  </div>
+</div>

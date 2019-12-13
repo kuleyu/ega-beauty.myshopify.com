@@ -1,0 +1,75 @@
+<!-- Page Title
+============================================= -->
+
+<!-- #page-title end -->
+<section id="content" class = "hidden-sm hidden-md hidden-lg">
+	{% include 'page-title' %}
+	<div class="content-wrap">
+		{% if cart.item_count == 0 %}
+		<div class="container clearfix">
+			<div class="table-responsive">
+				<p>Không có sản phẩm nào trong giỏ hàng</p>
+				<a  href="/collections/all"><i class="icon-line2-action-undo"></i> Tiếp tục mua hàng</a>
+			</div>
+		</div>
+		{% else %}
+		<div class="container clearfix">
+			<form action="/cart" method="post" id="cartformpage"> 
+				{% for item in cart.items %}
+				<div class="cart_item">
+					<div class="cart-product-thumbnail col-xs-3">
+						<a href="{{item.url | within: collection }}"><img src="{{ item | img_url:'small' }}" alt="{{item.product.title}}"></a>
+					</div>
+					<div class = "cart-product-info col-xs-9">
+						<div class="cart-product-name">
+							<a href="{{item.url | within: collection }}">{{item.product.title}}</a>
+							<p style='margin-bottom: 0;'>{{item.variant.title}}</p>
+						</div>
+
+						<div class="cart-product-price">
+							<span class="amount">Giá: {{item.variant.price|money}}</span>
+						</div>
+						<div class = "">
+							<div class="cart-product-quantity col-xs-10 nopadding">
+								<div class="quantity clearfix">
+									<input type="button" onclick='minus_quantity({{item.id}},"mobile_product-quantity2updates_{{item.id}}")' value="-" class="minus">
+									<input type="text" name="updates[]" value="{{item.quantity}}" class="qty" id='mobile_product-quantity2updates_{{item.id}}' readonly />
+									<input type="button" value="+" class="plus" onclick='plus_quantity({{item.id}},"mobile_product-quantity2updates_{{item.id}}")'>
+								</div>
+							</div>
+							<div class="cart-product-remove col-xs-2" style = "line-height:40px">
+								<a href="/cart/change?line={{forloop.index}}&quantity=0" class="remove" title="Remove this item"><i class="icon-trash2"></i></a>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<div class = "clear"></div>
+				<div class = "line" style ="margin: 20px 0;"></div>
+				{% endfor %}
+				<div class='cart_bottom col-xs-12' style="text-align:center;">
+					<div class='hidden-xs'>&nbsp;</div>
+					<div class='hidden-xs'>&nbsp;</div>
+					<div class='hidden-xs'>&nbsp;</div>
+					<div class='hidden-xs'>&nbsp;</div>
+					<div><p style="margin-bottom:0px;text-align: left;font-size: 16px;font-weight: 600;">Tổng tiền<span class="amount color lead" style = "float: right"><strong>{{cart.total_price|money}}</strong></span></p></div>
+					<div class=''></div>
+
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<div class="checkout-buttons clearfix">
+						<label for="note">Ghi chú </label>
+						<textarea style='height:85px' id="note" class='sm-form-control' name="note" rows="8" cols="50">{{ cart.note }}</textarea>
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					<button name="update" style = "margin: 5px 0px;border-radius: 4px;" class="col-xs-12 cart_update_btn button">Cập nhật giỏ hàng</button>
+					<button name='checkout' style = "margin: 5px 0px;border-radius: 4px;" class="col-xs-12 cart_checkout_btn button">Thanh toán</button>
+				</div>
+				
+			</form>
+
+		</div>
+		{% endif %}
+	</div>
+</section>

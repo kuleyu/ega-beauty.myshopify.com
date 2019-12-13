@@ -1,0 +1,17 @@
+<ul class='tag_group nostyled noleftpadding'>
+  {% for tag in article.tags %}
+  <li class='tag'>
+    {% if current_tags contains tag %}
+    <a href=''>
+      <i class='fa fa-tag'></i>
+      {{ tag }}
+    </a>
+    {% else %}
+    <a href='/blogs/news/tagged/{{ tag | handleize }}'>
+      <i class='fa fa-tag'></i>
+      {{ tag }}
+    </a>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>

@@ -1,0 +1,114 @@
+<div class="filter_group">
+
+  {% if current_tags %}
+  <a href="#" class="clear_filter_all">Clear All</a>
+  {% endif %}
+  {% if settings.use_color_filter %}
+  <!-- color filter -->
+  <div class="widget clearfix filter color">
+    <div class="widget_title">
+      <h3>
+        <span class="">{{ settings.color_filter_title }}</span>
+        <a href="#" class="clear_filter" style="display:none">Clear</a>
+      </h3>
+    </div>
+    <div class="widget_content">
+      <ul>
+        {% for i in (1..10) %}
+        {% capture color_title %}color_title_{{i}}{% endcapture%}
+        {% capture color %}color_{{i}}{% endcapture%}
+        {%if settings[color_title] != '' %} 
+        {% assign tag = settings[color_title] | strip %}
+        {% if current_tags contains tag %}
+        <li>
+          <input type="checkbox" value="{{ tag | handle }}" checked/>
+          <label title='{{ tag }}'>
+            <span style='background: {{settings[color]}}'></span>
+          </label>
+        </li>
+        {% elsif collection.all_tags contains tag %}
+        <li>
+          <input type="checkbox" value="{{ tag | handle }}"/>
+          <label title='{{ tag }}'>
+            <span style='background: {{settings[color]}}'></span>
+          </label>
+        </li>
+        {% endif %}
+        {%endif%}
+        {% endfor %}
+      </ul>
+      {% assign tags = settings.color_filter_array | split: ',' %}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if settings.use_price_filter %}
+  <!-- price filter -->
+  <div class="widget clearfix filter">
+    <div class="widget_title">
+      <h3>
+        <span class="">{{ settings.price_filter_title }}</span>
+        <a href="#" class="clear_filter" style="display:none">Clear</a>
+      </h3>
+    </div>
+    <div class="widget_content">
+      {% assign tags = settings.price_filter_array | split: ',' %}
+
+      <ul>
+        {% for t in tags %}
+        {% assign tag = t | strip %}
+        {% if current_tags contains tag %}
+        <li>
+          <input type="checkbox" value="{{ tag | handle }}" checked/>
+          <label>{{ tag }}</label>
+        </li>
+        {% elsif collection.all_tags contains tag %}
+        <li>
+          <input type="checkbox" value="{{ tag | handle }}"/>
+          <label>{{ tag }}</label>
+        </li>
+        {% endif %}
+        {% endfor %}
+
+      </ul>
+    </div>
+  </div>
+  {% endif %}
+
+  {% for i in (1..4) %}
+  {% capture use_tag_custom %}use_tag_custom_filter_{{i}}{% endcapture %}
+  {% capture tag_custom_filter_title %}tag_custom_filter_title_{{i}}{% endcapture %}
+  {% capture tag_custom_filter_array %}tag_custom_filter_array_{{i}}{% endcapture %}
+
+  {% if settings[use_tag_custom] %}
+  <div class="widget clearfix filter ">
+    <div class="widget_title">
+      <h3>
+        <span class="">{{ settings[tag_custom_filter_title] }}</span>
+        <a href="#" class="clear_filter" style="display:none">Clear</a>
+      </h3>
+    </div>
+    <div class="widget_content">
+      {% assign tags = settings[tag_custom_filter_array] | split: ',' %}
+      <ul>
+        {% for t in tags %}
+        {% assign tag = t | strip %}
+        {% if current_tags contains tag %}
+        <li>
+          <input type="checkbox" value="{{ tag | handle }}" checked/>
+          <label>{{ tag }}</label>
+        </li>
+        {% elsif collection.all_tags contains tag %}
+        <li>
+          <input type="checkbox" value="{{ tag | handle }}"/>
+          <label>{{ tag }}</label>
+        </li>
+        {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  {% endif %}
+  {% endfor %}
+
+</div>

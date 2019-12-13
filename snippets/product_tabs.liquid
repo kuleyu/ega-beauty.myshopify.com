@@ -1,0 +1,70 @@
+{% assign active_tab_1 = true %}
+{% assign active_tab_2 = false %}
+{% assign active_tab_3 = false %}
+{% assign active_tab_4 = false %}
+
+{% unless settings.use_product_description %}
+{% assign active_tab_2 = true %}
+{% unless settings.use_product_reviews %}
+{% assign active_tab_3 = true %}
+{% unless settings.use_product_content_1 %}
+{% assign active_tab_4 = true %}
+{% endunless %}
+{% endunless %}
+{% endunless %}
+
+<div id='product_tabs' class='col-xs-12 product_tabs'>
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    {% if settings.use_product_description %}
+    <li role="presentation" class="active">
+      <a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">{{ 'products.general.description' | t }}</a>
+    </li>
+    {% endif %}
+
+    {% if settings.use_product_reviews %}
+    <li role="presentation"{% if active_tab_2 %} class='active'{% endif %}>
+      <a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">{{ 'products.general.review' | t }}</a>
+    </li>
+    {% endif %}
+
+    {% if settings.use_product_content_1 %}
+    <li role="presentation"{% if active_tab_3 %} class='active'{% endif %}>
+      <a href="#tab3" aria-controls="tab3" role="tab" data-toggle="tab">{{ settings.product_content_title_1 }}</a>
+    </li>
+    {% endif %}
+
+    {% if settings.use_product_content_2 %}
+    <li role="presentation"{% if active_tab_4 %} class='active'{% endif %}>
+      <a href="#tab4" aria-controls="tab4" role="tab" data-toggle="tab">{{ settings.product_content_title_2 }}</a>
+    </li>
+    {% endif %}
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    {% if settings.use_product_description %}
+    <div role="tabpanel" class="tab-pane active" id="tab1">
+      {{ product.description }}
+    </div>
+    {% endif %}
+
+    {% if settings.use_product_reviews %}
+    <div role="tabpanel" class="tab-pane{% if active_tab_2 %} active{% endif %}" id="tab2">
+    {% include 'judgeme_widgets', widget_type: 'judgeme_review_widget', concierge_install: true %}
+    </div>
+    {% endif %}
+
+    {% if settings.use_product_content_1 %}
+    <div role="tabpanel" class="tab-pane{% if active_tab_3 %} active{% endif %}" id="tab3">
+      {{ settings.product_content_1 }}
+    </div>
+    {% endif %}
+
+    {% if settings.use_product_content_2 %}
+    <div role="tabpanel" class="tab-pane{% if active_tab_4 %} active{% endif %}" id="tab4">
+      {{ settings.product_content_2 }}
+    </div>
+    {% endif %}
+  </div>
+</div>

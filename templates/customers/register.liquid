@@ -1,0 +1,39 @@
+<div class="container customer">
+  {% include 'page_title' %}
+  <div class='line'></div>
+  <div class='row'>
+    <div class='col-xs-12 col-sm-6 col-md-5'>
+      <div id="CustomerRegisterForm">
+        {% form 'create_customer' %}
+
+        {{ form.errors | default_errors }}
+
+        <div class="form-group">
+          <label class='margin_right_10' for="FirstName" class="">{{ 'customer.register.first_name' | t }}</label><span class='text_required'>*</span>
+          <input type="text" value="" name="customer[first_name]" id="FirstName" class="form-control" placeholder="{{ 'customer.register.first_name' | t }}" {% if form.first_name %}value="{{ form.first_name }}"{% endif %} autocapitalize="words" autofocus>
+        </div>
+
+        <div class="form-group">
+          <label for="LastName" class="margin_right_10">{{ 'customer.register.last_name' | t }}</label><span class='text_required'>*</span>
+          <input type="text" value="" name="customer[last_name]" id="LastName" class="form-control" placeholder="{{ 'customer.register.last_name' | t }}" {% if form.last_name %}value="{{ form.last_name }}"{% endif %} autocapitalize="words">
+        </div>
+
+        <div class="form-group">
+          <label for="Email" class="margin_right_10">{{ 'customer.register.email' | t }}</label><span class='text_required'>*</span>
+          <input type="email" value="" name="customer[email]" id="Email" class="form-control{% if form.errors contains 'email' %} error{% endif %}" placeholder="{{ 'customer.register.email' | t }}" {% if form.email %} value="{{ form.email }}"{% endif %} autocorrect="off" autocapitalize="off">
+        </div>
+
+        <div class="form-group">
+          <label for="CreatePassword" class="margin_right_10">{{ 'customer.register.password' | t }}</label><span class='text_required'>*</span>
+          <input type="password" value="" name="customer[password]" id="CreatePassword" class="form-control{% if form.errors contains 'password' %} error{% endif %}" placeholder="{{ 'customer.register.password' | t }}">
+        </div>
+
+        <p class='clearfix submit_group'>
+          <input type="submit" class="btn login_btn" value="{{ 'customer.register.title' | t | upcase }}">
+          <a href='/account/login' class='pull-right' >{{ 'customer.register.have_account' | t }}</a>
+        </p>
+        {% endform %}
+      </div>
+    </div>
+  </div>
+</div>

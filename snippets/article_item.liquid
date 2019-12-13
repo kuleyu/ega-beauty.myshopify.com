@@ -1,0 +1,38 @@
+<div class="item_inner">
+  <div class='article_image'>
+    <a href='{{ article.url }}' title='{{ article.title }}'>
+
+      <picture>
+        <source media="(max-width: 991px)" srcset="{{ article.image.src | img_url: 'master' }}" >
+        <img {% if template == 'index' %}
+             src
+             {% else %}
+             data-lazyload
+             {% endif %}
+             ="{{ article.image.src | img_url: article_size }}" alt='{{ article.title }}'>
+      </picture>
+      
+    </a>
+    <div class='article_title'>
+      <h4><a href='{{ article.url }}'>{{ article.title }}</a></h4>
+      <p class='article_meta'>        
+        <span class='published_date'>{{ article.published_at | date: "%B %d, %Y"}}</span>
+        <span class='author'>{{ 'blogs.article.author_on_date' | t }} <a href='{{ article.url }}'>{{ article.author }}</a></span>
+      </p>
+    </div>
+  </div>
+  <div class='short_desc'>
+    <p>
+      {{ article.excerpt }}
+    </p>
+
+    {% if template == 'blog' %}
+    <a class='readmore' href='{{ article.url }}'>{{ 'general.general.read_more' | t }}</a>
+
+    {% if settings.use_blog_tags %}
+    {% include 'article_tags' %}
+    {% endif %}
+
+    {% endif %}
+  </div>
+</div>

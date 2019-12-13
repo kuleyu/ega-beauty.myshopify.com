@@ -1,0 +1,32 @@
+<!-- product_overlay_style2 -->
+<div class="product_overlay style_2 hidden-sm hidden-xs">
+<div class="btn_action">
+	<div class="action_1 pull-left">
+		<a href="#product-pop-up" class="item-quick-view fancybox-fast-view hidden-sm hidden-xs"  product_url="{{ product.url }}">
+			<i class="fa fa-eye"></i>
+		</a>
+		<span>Xem nhanh</span>
+	</div>
+	<div class="action_2 pull-right">
+		{% if product.options.size == 1 and product.variants.size == 1 %}
+		{% if product.variants.first.available %}
+		<a href="{{ product.url}}" class="product_quick_add"><i class="fa fa-shopping-cart"></i></a>
+		<span>Thêm vào giỏ</span>
+		{% else %}
+		<a class="disabled"><i class="fa fa-shopping-cart"></i></a>
+		<span>Hết hàng</span>
+		{% endif %}
+		{% else %}
+		<a href='{{ product.url }}' class='add-to-cart'><i class="fa fa-shopping-cart"></i></a>
+		<span>Lựa chọn</span>
+		{% endif %}
+	</div>
+</div>
+</div>
+<!-- end product_overlay_style2 -->
+
+
+
+
+
+

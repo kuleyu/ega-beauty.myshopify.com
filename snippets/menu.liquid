@@ -1,0 +1,131 @@
+{% if linklists[settings.main_menu].links.size > 0 %}
+{% assign main_menu = linklists[settings.main_menu] %}
+{% else %}
+{% assign main_menu = linklists.main-menu %}
+{% endif %}
+
+<div id="primary-menu" class='style_1'>
+  <nav class='hidden-xs hidden-sm'>
+    <ul>
+      {% comment %}
+      Order Of Megamenu 
+      {% endcomment %}
+
+      {% assign j = 0 %}
+
+      {% for li01 in main_menu.links %}
+      {% assign mega_flag = false %}
+
+      {% for i in (1..4) %}
+      {% capture megamenu %}megamenu_items_{{i}}{% endcapture %}
+      {% if li01.title == settings[megamenu] %}
+      {% assign mega_flag = true %}
+      {% endif %}
+      {% endfor %}
+      {% unless mega_flag == true %}
+
+      <!-- Normal Menu -->
+      {% if linklists[li01.handle] == empty %}
+      <li class='{% if li02.active %}current{% endif %}'>
+        <a href="{{ li01.url }}">{{ li01.title }}</a>
+      </li>
+      {% else %}
+      <!-- Normal Sub menu -->
+      <li class='has_submenu {% if li02.active %}current{% endif %}'>
+        <a class='' href="{{ li01.url }}">{{ li01.title }}<i class='fa fa-chevron-down'></i></a>
+        <ul class='submenu'>
+          {% for li02 in linklists[li01.handle].links %}
+          {% if linklists[li02.handle] == empty %}
+          <li class='{% if li02.handle == li02_link_act %}current{% endif %}'>
+            <a class='' href="{{ li02.url }}">{{ li02.title }}</a>
+          </li>
+          {% else %}
+          <li class='has_submenu'>
+            <a class='' href="{{ li02.url }}">{{ li02.title }}</a>
+            <ul class='submenu'>
+              {% for li03 in linklists[li02.handle].links %}
+              <li class=''>
+                <a href="{{ li03.url }}">{{ li03.title }}</a>
+              </li>
+              {% endfor %}
+            </ul>
+          </li>
+          {% endif %}
+          {% endfor %}
+        </ul>
+      </li>
+      <!-- End Normal Sub Menu -->
+      {% endif %}
+
+      {% else %}
+      <!-- Mega Menu -->
+      {% assign j = j | plus: 1 %}
+      <li class='has_megamenu'>
+        <a href='{{ li01.url }}'>{{ li01.title }}<i class='fa fa-chevron-down'></i></a>
+        <div class='megamenu'>
+          <div class='megamenu_content'>
+            <div class='row'>
+              {% capture settings_megamenu_link_1 %}megamenu_link_{{j}}_1{% endcapture %}
+              {% capture settings_megamenu_link_2 %}megamenu_link_{{j}}_2{% endcapture %}
+              {% capture settings_megamenu_blog %}megamenu_blog_{{j}}{% endcapture %}
+
+              {% assign megamenu_link_1 = settings[settings_megamenu_link_1] %}
+              {% assign megamenu_link_2 = settings[settings_megamenu_link_2] %}
+              {% assign megamenu_blog = settings[settings_megamenu_blog] %}
+
+              {% if linklists[megamenu_link_1].links.size > 0 %}
+              <div class='col-xs-3'>
+                <h3>{{ linklists[megamenu_link_1].title }}</h3>
+                <ul>
+                  {% for link in linklists[megamenu_link_1].links %}
+                  <li><a href='{{ link.url }}'>{{ link.title }}</a></li>
+                  {% endfor %}
+                </ul>
+              </div>
+              {% endif %}
+
+              {% if linklists[megamenu_link_2].links.size > 0 %}
+              <div class='col-xs-3'>
+                <h3>{{ linklists[megamenu_link_2].title }}</h3>
+                <ul>
+                  {% for link in linklists[megamenu_link_2].links %}
+                  <li><a href='{{ link.url }}'>{{ link.title }}</a></li>
+                  {% endfor %}
+                </ul>
+              </div>
+              {% endif %}
+
+              {% if blogs[megamenu_blog].articles.size > 0 %}
+              <div class='col-xs-6'>
+                <h3>{{ blogs[megamenu_blog].title }}</h3>
+                <div class='row'>
+                  {% for article in blogs[megamenu_blog].articles limit: 2 %}
+                  <div class='col-xs-6 article_item'>
+                    {% include 'megamenu_article_item' with {article_size: '260x'} %}
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+              {% endif %}
+
+            </div>
+          </div>
+        </div>
+      </li>
+      {% endunless %}
+      {% endfor %}
+
+    </ul>
+  </nav>
+  
+  {% include 'menu_mb' %}
+  
+  {% if settings.use_header_cart %}
+  {% include 'top_cart' %}
+  {% endif %}
+
+  {% if settings.use_header_search %}
+  {% include 'top_search' %}
+  {% endif %}
+  
+</div>
